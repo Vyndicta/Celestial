@@ -43,7 +43,7 @@ body {
 }
 
 .sidebar a:hover, .sidebar a:focus, .sidebar a:active {
-  background-color: #3a3a3a; /* Add this line to restore hover background */
+  background-color: #484848; /* Updated hover background color */
   text-decoration: none !important;
 }
 
