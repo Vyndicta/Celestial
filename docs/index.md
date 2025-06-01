@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Home
+title: Main page
 ---
 
 # Welcome to the Docs
