@@ -1,25 +1,50 @@
-# Celestial Top Module
+# Celestial top module
 
-## Overview
+The celestial top module serves as the main interface between the rocket core and the accelerator. It handles communication, coordinates the simulation process, and manages the overall control flow of the n-body simulation.
 
-The Celestial Top Module serves as the primary interface between the accelerator and the rocket core. It is responsible for managing communication, controlling the simulation iterations, and handling data packets that dictate the operations of the accelerator.
+## Communication protocol
 
-## Communication with the Rocket Core
+The communication between the top module and the rocket core is accomplished through 64-bit packets sent to a data_in register. Each packet follows this structure:
 
-The communication between the Celestial Top Module and the rocket core is established through the transmission of 64-bit packets. These packets are sent to a `data_in` register within the top module. The structure of these packets is crucial for ensuring that commands are executed correctly and efficiently.
+| Field | Size | Description |
+|-------|------|-------------|
+| Command | 8 bits | Specifies the action for the accelerator |
+| Lock key | 8 bits | Security mechanism for authorized requests |
+| Data | 48 bits | Values relevant to the command |
 
-## Packet Structure
+## Supported commands
 
-The data packets consist of the following components:
+The accelerator supports various commands for different operations:
 
-- **Command**: Specifies the action that the accelerator is expected to perform.
-- **Lock Key**: Ensures that the request is authorized, providing a layer of security against unauthorized commands.
-- **Data**: Contains any additional values relevant to the command being executed.
+- **Setup commands**: Initialize simulation parameters
+- **Position update commands**: Trigger position calculations
+- **Velocity update commands**: Initiate velocity computations
+- **Collision detection commands**: Check for potential collisions
+- **Status query commands**: Retrieve simulation state
 
-## Supported Commands
+## Key responsibilities
 
-The Celestial Top Module supports a variety of commands that allow for flexible control of the accelerator. These commands enable the execution of tasks such as starting or stopping simulations, adjusting parameters, and retrieving status information.
+### Iteration management
+- Controls the simulation time steps
+- Manages the overall simulation loop
+- Coordinates between different processing phases
 
-## Conclusion
+### Module coordination
+- Orchestrates communication between body processing units
+- Controls the switch module for data routing
+- Synchronizes position and velocity update phases
 
-The Celestial Top Module is a critical component of the accelerator, facilitating communication and control. Its design ensures that the accelerator operates efficiently and securely, allowing for accurate simulations of celestial dynamics.
+### Security features
+- Implements lock key verification to prevent unauthorized access
+- Protects against simulation tampering
+- Ensures data integrity during processing
+
+## Implementation details
+
+The top module maintains several important state variables:
+- Current iteration counter
+- Time step value
+- Number of active bodies
+- Simulation status flags
+
+It also manages the control signals that coordinate the different phases of the simulation, ensuring proper sequencing of position updates, velocity calculations, and collision detection.

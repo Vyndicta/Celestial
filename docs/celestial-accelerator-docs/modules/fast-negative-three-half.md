@@ -1,32 +1,49 @@
-# Fast Negative Three-Half Exponent Module
+# Fast negative three-half exponent
 
-## Overview
+The fast negative three-half exponent module is a critical component of the object processing unit, responsible for efficiently computing the x^(-3/2) operation required for gravitational force calculations.
 
-The Fast Negative Three-Half Exponent module is a critical component of the celestial accelerator, designed to optimize the velocity update process for celestial bodies in simulation. This module leverages mathematical principles to perform calculations efficiently, significantly reducing the number of cycles required for velocity updates.
+## Purpose and importance
 
-## Functionality
+In n-body simulations, computing gravitational forces requires calculating:
 
-The primary function of the Fast Negative Three-Half Exponent module is to compute the negative three-half power of a given value. This computation is essential for updating the velocity of celestial objects based on their gravitational interactions. The mathematical representation of this operation can be expressed as:
+\[ F = \frac{G \cdot m_1 \cdot m_2}{r^2} \]
 
-\[ \text{result} = x^{-3/2} \]
+However, we also need the unit direction vector, which requires dividing by the distance. This results in needing \( r^{-3/2} \), making the fast negative three-half exponent crucial for performance.
 
-where \( x \) is the distance between two celestial bodies.
+## Algorithm basis
 
-## Implementation Details
+This module is based on a modification of the famous fast inverse square root algorithm, originally used in video games like Quake III. The algorithm uses bit manipulation and Newton-Raphson iteration to approximate the result much faster than traditional methods.
 
-The implementation of the Fast Negative Three-Half Exponent utilizes a modified version of the fast inverse square root algorithm. This approach allows for rapid computation of the required exponentiation, which is crucial in scenarios where performance is paramount, such as real-time simulations of celestial mechanics.
+## Key advantages
 
-### Key Steps in the Calculation
+### Speed optimization
 
-1. **Input Handling**: The module receives the distance value as input, which is necessary for calculating the gravitational influence between bodies.
-2. **Exponent Calculation**: Using the fast inverse square root technique, the module computes the negative three-half exponent efficiently.
-3. **Output**: The result is then outputted for use in the velocity update calculations of the object processing unit.
+- Significantly reduces the number of clock cycles needed for velocity updates
+- Enables the accelerator to achieve substantial speedup over software implementations
+- Critical for maintaining \( O(N) \) complexity in the hardware implementation
 
-## Benefits
+### Hardware efficiency
 
-- **Performance Improvement**: By optimizing the exponentiation process, the Fast Negative Three-Half Exponent module significantly reduces the computational overhead associated with velocity updates.
-- **Scalability**: The module's design allows it to handle multiple bodies simultaneously, making it suitable for large-scale simulations involving numerous celestial objects.
+- Designed specifically for FPGA implementation
+- Minimizes resource usage while maintaining accuracy
+- Integrates seamlessly with the arithmetic units
 
-## Conclusion
+## Implementation details
 
-The Fast Negative Three-Half Exponent module plays a vital role in enhancing the performance of the celestial accelerator. Its efficient computation methods contribute to the overall speed and accuracy of simulations, making it an essential component in the study of celestial mechanics.
+The module implements a modified version of the fast inverse square root that computes \( x^{-3/2} \) instead of \( x^{-1/2} \). This involves:
+
+1. **Bit manipulation**: Initial approximation using IEEE 754 floating-point representation
+2. **Newton-Raphson iteration**: Refines the approximation for better accuracy
+3. **Optimization**: Tailored for the specific needs of gravitational calculations
+
+## Performance impact
+
+According to the performance analysis, even for the worst-case scenario of only 2 bodies, the optimized velocity update flow (including this module) provides a 626% speed increase compared to software implementation.
+
+## Integration with velocity updates
+
+The fast negative three-half exponent module works in conjunction with other components during velocity updates:
+
+- Receives distance calculations from arithmetic units
+- Provides normalized force magnitude for direction vector computation
+- Enables efficient computation of gravitational accelerations for all body interactions

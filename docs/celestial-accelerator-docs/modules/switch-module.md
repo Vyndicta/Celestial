@@ -1,25 +1,63 @@
-# Switch Module
+# Switch module
 
-The switch module is a critical component of the celestial accelerator, responsible for managing the connections between the top module and the body processing units. Its primary function is to facilitate the flow of data during the simulation of celestial bodies, ensuring that the necessary information is routed correctly to and from the various processing units.
+The switch module acts as the central data routing hub of the celestial accelerator, managing the flow of information between the various body processing units (BPUs) and coordinating data sharing during different phases of the simulation.
 
-## Functionality
+## Primary function
 
-- **Data Routing**: The switch module directs data packets from the top module to the appropriate body processing units based on the current simulation requirements. This includes sharing position updates and other relevant information needed for accurate calculations.
+The switch module connects the relevant outputs to the relevant inputs according to commands from the top module. Its main responsibility is enabling efficient data sharing between body processing units during the simulation process.
 
-- **Control Signals**: It interprets control signals from the top module, determining which body processing unit should receive specific data. This allows for efficient communication and coordination among the processing units during the simulation.
+## Key operations
 
-- **Dynamic Connections**: The switch module can dynamically adjust its connections based on the simulation state, enabling it to handle varying numbers of bodies and different simulation scenarios effectively.
+### Position broadcasting
+During the velocity update phase, each body processing unit needs to know the positions of all other bodies to compute gravitational interactions. The switch module:
+- Receives position data from one BPU at a time
+- Broadcasts this position to all other BPUs
+- Cycles through each BPU systematically
+- Ensures all units receive the necessary position information
 
-## Operation
+### Data flow coordination
+The switch module manages different types of data flow:
+- **Position sharing**: Broadcasting positions during velocity calculations
+- **Velocity sharing**: Distributing velocity data when needed
+- **Control signal routing**: Forwarding control commands to appropriate units
+- **Status information**: Collecting and routing status data back to the top module
 
-1. **Initialization**: Upon startup, the switch module establishes initial connections with the top module and the body processing units. It prepares to receive commands and data packets.
+## Implementation details
 
-2. **Receiving Commands**: The switch module listens for commands from the top module, which dictate the actions to be performed by the body processing units.
+### Multiplexing architecture
+The switch uses multiplexers to route data efficiently:
+- Input multiplexers select which BPU's data to broadcast
+- Output demultiplexers distribute data to multiple recipients
+- Control logic determines the routing configuration
 
-3. **Data Transmission**: When a command is received, the switch module routes the relevant data to the designated body processing unit. This includes position and velocity information, as well as any other parameters necessary for the simulation.
+### Timing coordination
+Working with the top module's internal counter:
+- Tracks which BPU is currently broadcasting
+- Manages the transition between different simulation phases
+- Ensures proper synchronization of data flow
 
-4. **Feedback Loop**: After processing, the body processing units send feedback to the switch module, which may include updated positions or collision detection results. The switch module then relays this information back to the top module for further processing.
+## Performance considerations
 
-## Conclusion
+### Bandwidth optimization
+- Designed to minimize data transfer overhead
+- Efficient routing reduces communication bottlenecks
+- Parallel data paths where possible
 
-The switch module plays a vital role in the overall architecture of the celestial accelerator, ensuring seamless communication between the top module and the body processing units. Its ability to manage data flow efficiently is essential for the accurate and timely simulation of celestial dynamics.
+### Scalability
+- Architecture scales with the number of body processing units
+- Configurable through Chisel parameters
+- Maintains performance as system size increases
+
+## Integration with simulation phases
+
+### Velocity update phase
+- Systematically broadcasts each BPU's position to all others
+- Coordinates the O(N) complexity velocity calculations
+- Manages the sequential nature of position sharing
+
+### Position update phase
+- Handles any necessary data routing for position calculations
+- Ensures BPUs have access to required velocity information
+- Maintains data flow efficiency during parallel position updates
+
+The switch module is essential for maintaining the accelerator's O(N) complexity advantage, enabling efficient communication patterns that would be much more complex in software implementations.
