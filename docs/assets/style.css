@@ -20,11 +20,35 @@ body {
   padding: 2rem;
 }
 
-/* Sidebar */
 .sidebar {
   width: 250px;
   padding-right: 2rem;
   border-right: 1px solid #333;
+}
+
+.sidebar h2 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.sidebar a {
+  color: #61dafb;
+  text-decoration: none;
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: #333;
+}
+
+.sidebar a.active {
+  background-color: #444;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .nav-box {
