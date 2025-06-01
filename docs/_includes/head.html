@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include head.html %}
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2>{{ site.title }}</h2>
+      <ul>
+        <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
+      </ul>
+    </nav>
+    <main class="content">
+      {{ content }}
+    </main>
+  </div>
+</body>
+</html>

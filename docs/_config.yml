@@ -1,0 +1,7 @@
+title: "Your Project Docs"
+description: "Clean documentation site"
+theme: null
+markdown: kramdown
+exclude: [".gitignore"]
+# Required if site is in /docs
+baseurl: "/docs"
