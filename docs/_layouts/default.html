@@ -29,5 +29,51 @@
       {{ content }}
     </main>
   </div>
+
+  <script>
+    // Add copy buttons to code blocks
+    document.addEventListener('DOMContentLoaded', function() {
+      const codeBlocks = document.querySelectorAll('pre code');
+      
+      codeBlocks.forEach(function(codeBlock) {
+        const pre = codeBlock.parentElement;
+        const container = document.createElement('div');
+        container.className = 'code-block-container';
+        
+        // Wrap the pre element
+        pre.parentNode.insertBefore(container, pre);
+        container.appendChild(pre);
+        
+        // Create copy button
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.textContent = 'Copy';
+        copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+        
+        // Add click handler
+        copyButton.addEventListener('click', function() {
+          const text = codeBlock.textContent;
+          
+          navigator.clipboard.writeText(text).then(function() {
+            copyButton.textContent = 'Copied!';
+            copyButton.classList.add('copied');
+            
+            setTimeout(function() {
+              copyButton.textContent = 'Copy';
+              copyButton.classList.remove('copied');
+            }, 2000);
+          }).catch(function(err) {
+            console.error('Failed to copy text: ', err);
+            copyButton.textContent = 'Error';
+            setTimeout(function() {
+              copyButton.textContent = 'Copy';
+            }, 2000);
+          });
+        });
+        
+        container.appendChild(copyButton);
+      });
+    });
+  </script>
 </body>
 </html>
