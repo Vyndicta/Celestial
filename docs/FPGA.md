@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Module A
+title: FPGA implementation
 ---
 
 # Module A
