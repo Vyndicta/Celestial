@@ -3,12 +3,20 @@ layout: default
 title: Home
 ---
 
-# Welcome to Your Project
+# Welcome to the Docs
 
-This is a minimalist documentation site inspired by **Just the Docs**, without branding.
+A sleek dark mode documentation site inspired by Just the Docs.
 
 ## Features
 
-- Clean typography
-- Simple navigation
-- Fast loading
+- 🌓 Dark mode by default  
+- 📄 Markdown rendering  
+- ⚡ Fast and self-contained  
+- ✨ Clean, modern UI  
+
+## Example Code
+
+```js
+function greet(name) {
+  return `Hello, ${name}!`;
+}
