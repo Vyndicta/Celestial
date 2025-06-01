@@ -1,7 +1,5 @@
-title: "Your Project Docs"
-description: "Clean documentation site"
-theme: null
+title: "My Project"
+description: "Documentation powered by Jekyll"
+baseurl: "/docs" # Important if using /docs as the Pages source
 markdown: kramdown
-exclude: [".gitignore"]
-# Required if site is in /docs
-baseurl: "/docs"
+theme: null

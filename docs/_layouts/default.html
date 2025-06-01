@@ -8,12 +8,14 @@
 </head>
 <body>
   <div class="container">
-    <nav class="sidebar">
+    <aside class="sidebar">
       <h2>{{ site.title }}</h2>
-      <ul>
-        <li><a href="/">Home</a></li>
-      </ul>
-    </nav>
+      <nav>
+        <ul>
+          <li><a href="{{ site.baseurl }}/">Home</a></li>
+        </ul>
+      </nav>
+    </aside>
     <main class="content">
       {{ content }}
     </main>

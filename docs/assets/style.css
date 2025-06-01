@@ -1,7 +1,6 @@
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
+  font-family: sans-serif;
   background: #f9f9f9;
   color: #333;
 }
@@ -9,8 +8,7 @@ body {
 .container {
   display: flex;
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 1rem;
+  margin: 2rem auto;
 }
 
 .sidebar {
@@ -23,15 +21,10 @@ body {
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar a {
-  text-decoration: none;
+a {
   color: #0366d6;
+  text-decoration: none;
 }
