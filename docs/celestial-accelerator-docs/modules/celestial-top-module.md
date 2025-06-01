@@ -22,29 +22,6 @@ The accelerator supports various commands for different operations:
 - **Collision detection commands**: Check for potential collisions
 - **Status query commands**: Retrieve simulation state
 
-## Key responsibilities
+## Usage
 
-### Iteration management
-- Controls the simulation time steps
-- Manages the overall simulation loop
-- Coordinates between different processing phases
-
-### Module coordination
-- Orchestrates communication between body processing units
-- Controls the switch module for data routing
-- Synchronizes position and velocity update phases
-
-### Security features
-- Implements lock key verification to prevent unauthorized access
-- Protects against simulation tampering
-- Ensures data integrity during processing
-
-## Implementation details
-
-The top module maintains several important state variables:
-- Current iteration counter
-- Time step value
-- Number of active bodies
-- Simulation status flags
-
-It also manages the control signals that coordinate the different phases of the simulation, ensuring proper sequencing of position updates, velocity calculations, and collision detection.
+Refer to the example C codes.
