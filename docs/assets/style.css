@@ -44,6 +44,7 @@ body {
 
 .sidebar a:hover {
   background-color: #333;
+  text-decoration: none;
 }
 
 .sidebar a.active {
