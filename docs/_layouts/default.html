@@ -9,13 +9,15 @@
 <body>
   <div class="container">
     <aside class="sidebar">
-      <h2>{{ site.title }}</h2>
-      <nav>
-        <ul>
-          <li><a href="{{ site.baseurl }}/">Home</a></li>
-        </ul>
-      </nav>
-    </aside>
+  <div class="nav-box">
+    <h2><a href="{{ site.baseurl }}/">Home</a></h2>
+    <ul>
+      <li><a href="{{ site.baseurl }}/module-a.html">Module A</a></li>
+      <li><a href="{{ site.baseurl }}/module-b.html">Module B</a></li>
+    </ul>
+  </div>
+</aside>
+
     <main class="content">
       {{ content }}
     </main>
