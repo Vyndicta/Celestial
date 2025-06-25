@@ -51,7 +51,7 @@ If the device doesn't appear, it can be an issue with: the USB port sharing, the
 You should see some LEDs blinking on the FPGA once the binary is sent.
 
 
-To send the Celestial binary: 
+To send a custom binary, e.g. the binary for the Celestial accelerator: 
 ```
 set_property PROGRAM.FILE /home/elech505/chipyard/fpga/generated-src/chipyard.fpga.nexysvideo.NexysVideoHarness.CelestialNexysVideoConfig/obj/NexysVideoHarness.bit [get_hw_devices xc7a200t_0]
 program_hw_devices [get_hw_devices xc7a200t_0]
