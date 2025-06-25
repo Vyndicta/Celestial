@@ -31,7 +31,7 @@ Then, send the binary to the FPGA. To do so, start one terminal, and call:
 hw_server 
 ```
 
-Then, open another terminal and  
+Then, open another terminal and call:
 ```
 vivado -mode tcl
 open_hw_manager
@@ -46,7 +46,8 @@ get_hw_devices should return something, otherwise the device is not detected. If
 set_property PROGRAM.FILE /home/elech505/chipyard/fpga/generated-src/chipyard.fpga.nexysvideo.NexysVideoHarness.RocketNexysVideoConfig/obj/NexysVideoHarness.bit [get_hw_devices xc7a200t_0]
 program_hw_devices [get_hw_devices xc7a200t_0]
 ```
-If the device doesn't appear, it can be an issue with: the USB port sharing, the drivers which are not installed, linux not attributing the right driver, ... \
+If the device doesn't appear, it can be an issue with: the USB port sharing, the drivers which are not installed, linux not attributing the right driver, ...
+
 You should see some LEDs blinking on the FPGA once the binary is sent.
 
 
