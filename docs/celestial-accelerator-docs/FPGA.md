@@ -3,6 +3,56 @@ layout: default
 title: FPGA implementation
 ---
 
+
+# Results
+
+The accelerator was implemented on a **Nexys Video Artix-7 FPGA**, featuring 20 body processing units (BPUs) alongside a Rocket Core. The implementation's performance and resource utilization were compared against a baseline version of the Rocket Core without the accelerator. The board's LEDs were connected to the accelerator's status register for simple feedback.
+
+## Performance and Resource Utilization
+
+The following table summarizes the key metrics from the implementation:
+
+| Version             | Effective Frequency (MHz) | Total LUT Utilization | Logic LUT Utilization |
+| ------------------- | ------------------------- | --------------------- | --------------------- |
+| Baseline            | 75.0                      | 42,852                | 39,707                |
+| With Accelerator    | 16.7                      | 102,810               | 99,661                |
+
+### Analysis
+
+- The introduction of the accelerator leads to a significant increase in LUT utilization, as expected.
+- The maximum operating frequency is reduced by a factor of approximately 4.4x (from 75.0 MHz to 16.7 MHz). The critical path was identified in the buffer register of the fast negative three-half algorithm ($x^{-3/2}$).
+- Despite the frequency reduction, the accelerator provides a **626% speed-up** for a 2-body simulation. This significant performance gain compensates for the lower clock speed, even in this worst-case scenario.
+
+## Sub-module Utilization
+
+The LUT utilization for the primary sub-modules within the BPU is detailed below:
+
+| Module type              | Min total LUTs | Max total LUTs |
+| ------------------------ | -------------- | -------------- |
+| BPU                      | 588            | 1,674          |
+| NegThreeHalfExpTop       | 3              | 3              |
+| NegThreeHalfExpInitial   | 62             | 63             |
+| NegThreeHalfExpRefine    | 1,870          | 2,706          |
+| F32Multiplier            | 185            | 188            |
+
+*Note: The synthesis report did not explicitly list the add/subtract module, suggesting it may have been embedded directly into the BPU logic by the Chisel compiler.*
+
+### Analysis
+
+- The `NegThreeHalfExpRefine` module shows high and widely varying LUT utilization. This is likely because it lies on the critical path and is therefore subject to heavy optimization during synthesis.
+- The refining module (`NegThreeHalfExpRefine`) consumes approximately 10 times more LUTs than the multiplier module. This suggests that the current module sharing strategy might not be optimal and that the pipelining for this module should be a primary target for redesign.
+
+## Conclusion and Future Work
+
+The FPGA implementation successfully demonstrates that the Celestial accelerator provides a substantial performance improvement over a software-only approach, even with a notable decrease in clock frequency.
+
+Key areas for future optimization include:
+1.  **Pipelining the $x^{-3/2}$ module:** Further pipelining the `NegThreeHalfExpRefine` stage could significantly improve the maximum operating frequency.
+2.  **Optimizing BPU activity:** During the velocity update phase, one BPU is idle while broadcasting its position. Eliminating this idle state could nearly double the performance in scenarios with few bodies.
+
+
+
+# To implement a chipyard design on an FPGA:
 # Requirments
 
 Chipyard \
@@ -11,7 +61,8 @@ Add the board to vivado (https://digilent.com/reference/programmable-logic/guide
 Share the USB port to the VM  \
 Install digilent Adept runtime and utilities  
 
-# First setup
+
+# Start
 
 Plug the FPGA using the PROG port  \
 Check if the device is seen in the VM using djtgcfg enum. If it isn't recognised, you might have some diver conflicts with Linux to troubleshoot first.  
