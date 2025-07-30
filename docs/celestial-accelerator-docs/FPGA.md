@@ -9,7 +9,7 @@ title: FPGA implementation
 The accelerator was implemented on a **Nexys Video Artix-7 FPGA**, featuring 20 body processing units (BPUs) alongside a Rocket Core. The implementation's performance and resource utilization were compared against a baseline version of the Rocket Core without the accelerator. The board's LEDs were connected to the accelerator's status register for simple feedback.
 
 ## Performance and Resource Utilization
-
+<!---
 The following table summarizes the key metrics from the implementation:
 
 | Version             | Effective Frequency (MHz) | Total LUT Utilization | Logic LUT Utilization |
@@ -36,7 +36,7 @@ The LUT utilization for the primary sub-modules within the BPU is detailed below
 | F32Multiplier            | 185            | 188            |
 
 *Note: The synthesis report did not explicitly list the add/subtract module, suggesting it may have been embedded directly into the BPU logic by the Chisel compiler.*
-
+-->
 ### Analysis
 
 - The `NegThreeHalfExpRefine` module shows high and widely varying LUT utilization. This is likely because it lies on the critical path and is therefore subject to heavy optimization during synthesis.
