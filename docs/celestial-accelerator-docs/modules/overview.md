@@ -1,6 +1,7 @@
 # Overview
 
 The accelerator is built with the following modules : 
+
 ![The celestial accelerator](../assets/image.png)
 
 
