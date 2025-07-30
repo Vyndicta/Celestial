@@ -2,11 +2,11 @@
 
 As detailed in the body processing unit's documentation, the velocity update flow relies on computing $x^{-3/2}$. While it would be possible to implement the fast inverse square root algorithm (which computes $x^{-1/2}$) and then cube the result, a custom algorithm dedicated to $x^{-3/2}$ can yield better results, depending on the precision requirements.
 
-This document first explains the well-known fast inverse square root algorithm and then details the custom fast negative three-half exponent algorithm.
+This document first explains the well-known fast inverse square root algorithm, details the custom fast negative three-half exponent algorithm and then compare the two methods in terms of precision and clock cycles necessary.
 
 ## The Fast Inverse Square Root Algorithm
 
-The fast inverse square root algorithm is a clever method for approximating $y = 1/\sqrt{x}$. It's famous for its use in 3D graphics for vector normalization.
+The fast inverse square root algorithm is a well known method for approximating $y = 1/\sqrt{x}$.
 
 ### Initial Estimate
 
@@ -27,16 +27,18 @@ $$
 The core idea starts by taking the base-2 logarithm of the target equation $y = x^{-1/2}$:
 
 $$
-\log_2(y) = -\frac{1}{2} \log_2(x)
+ln(y) = -\frac{1}{2} ln(x)
 $$
 
-Substituting the floating-point representation and using the linear approximation $\log_2(1+z) \approx z + \sigma$ (where $\sigma \approx 0.057304$ is a constant chosen to minimize error over the range $[0,1)$), we can relate the integer representations of $x$ and $y$:
+The first order Taylor approximation of ln(1+x) is x. Then, since due to the floating point representation, x is within $[0,1($, this approximation can be refined by adding a constant value, yielding:
+$ln(1+z) \approx z + \sigma$ (where $\sigma \approx 0.057304$ is a constant chosen to minimize error over the range $[0,1)$).
+This can be used on the integer previous equation with $x$ and $y$:
 
 $$
 I_y \approx \frac{3N}{2}(B - \sigma) - \frac{I_x}{2}
 $$
 
-The term $\frac{3N}{2}(B - \sigma)$ is a "magic number". For $\sigma = 0.057304$, this constant is approximately $1.597 \times 10^9$, which is `0x5F34FF64` in hexadecimal.
+The term $\frac{3N}{2}(B - \sigma)$ is known as the "magic number". For $\sigma = 0.057304$, this constant is approximately $1.597 \times 10^9$, which is `0x5F34FF64` in hexadecimal.
 
 This gives a remarkably good first estimate for $I_y$ using only integer and bit-shifting operations:
 `I_y = 0x5F34FF64 - (I_x >> 1)`
@@ -60,7 +62,7 @@ This algorithm adapts the principles of the fast inverse square root to directly
 The derivation is similar. We start with the log equation:
 
 $$
-\log_2(y) = -\frac{3}{2} \log_2(x)
+ln(y) = -\frac{3}{2} ln(x)
 $$
 
 Following the same substitution and approximation steps, we arrive at a new relationship between the integer representations:
