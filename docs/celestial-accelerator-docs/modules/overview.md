@@ -9,8 +9,6 @@ The top module receives the commands sent by the rocket core, and orchestrates t
 
 The switch module connects the top module and object processing units accordingly (see [this page](switch-module.md)). The object processing unit compute the velocity and position update of a given celestial object, see [this page](object-processing-unit.md).
 
-To read the documentation, it is recommended to start with the velocity update flow, as optimizing this processs dictated most of the architecture. Then, the C codes can be read to understand how to use the accelerator, and at last each module can be understood individually. The accelerator includes some basic security features, and an analysis of the performance speedup provided by the accelerator was made. The accelerator was implemented on an FPGA, as described at [this page](../FPGA.md).
-
 ## Table of Contents
 
 - [Overview](#overview)
