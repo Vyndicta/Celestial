@@ -3,6 +3,27 @@ layout: default
 title: FPGA implementation
 ---
 
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+</style>
 
 # Results
 
