@@ -6,13 +6,13 @@ title: FPGA implementation
 <style>
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 70%;
   margin-bottom: 1em;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 4px;
   text-align: left;
 }
 
