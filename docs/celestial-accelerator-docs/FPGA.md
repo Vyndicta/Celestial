@@ -10,18 +10,20 @@ The accelerator was implemented on a Nexys Video Artix-7 FPGA, with 20 body proc
 
 ## Performance and Resource Utilization
 
-The following table summarizes the key metrics from the implementation:
+In terms of LUT utilization:
 
 | Version             | Effective Frequency (MHz) | Total LUT Utilization | Logic LUT Utilization |
 | ------------------- | ------------------------- | --------------------- | --------------------- |
 | Baseline            | 75.0                      | 42,852                | 39,707                |
 | With Accelerator    | 16.7                      | 102,810               | 99,661                |
 
+
+
 ### Analysis
 
-- The introduction of the accelerator leads to a significant increase in LUT utilization, as expected.
-- The maximum operating frequency is reduced by a factor of approximately 4.4x (from 75.0 MHz to 16.7 MHz). The critical path was identified in the buffer register of the fast negative three-half algorithm ($x^{-3/2}$).
-- Despite the frequency reduction, the accelerator provides a **626% speed-up** for a 2-body simulation. This significant performance gain compensates for the lower clock speed, even in this worst-case scenario.
+- The introduction of the accelerator leads to a higher increase in LUT utilization than expected. This is because the ^-3/2 module seems to have one slow step, which forces heavy optimization during the PnR flow. This leads to extremely high utilization, which could probably be greatly reduced with some investigation.
+- The maximum operating frequency is reduced by a factor of approximately 4.4x (from 75.0 MHz to 16.7 MHz). The critical path is in the buffer register of the fast negative three-half algorithm ($x^{-3/2}$). Once again, some investigation would likely be able to increase drastically this frequency.
+- Despite this frequency reduction, the accelerator provides a **626% speed-up** for a 2-body simulation at iso frequency. This significant performance gain compensates for the lower clock speed, meaning that the accelerator outperforms a pure software implementation, even in this worst-case scenario (2 bodies).
 
 ## Sub-module Utilization
 
@@ -40,7 +42,7 @@ The LUT utilization for the primary sub-modules within the BPU is detailed below
 ### Analysis
 
 - The `NegThreeHalfExpRefine` module shows high and widely varying LUT utilization. This is likely because it lies on the critical path and is therefore subject to heavy optimization during synthesis.
-- The refining module (`NegThreeHalfExpRefine`) consumes approximately 10 times more LUTs than the multiplier module. This suggests that the current module sharing strategy might not be optimal and that the pipelining for this module should be a primary target for redesign.
+- The refining module (`NegThreeHalfExpRefine`) consumes approximately 10 times more LUTs than the multiplier module. This makes the current module sharing strategy useless, but is due to the high optimization process. Finding the problematic step in this module and diving it in more steps would fix this issue.
 
 ## Conclusion and Future Work
 
@@ -48,9 +50,7 @@ The FPGA implementation successfully demonstrates that the Celestial accelerator
 
 Key areas for future optimization include:
 1.  **Pipelining the $x^{-3/2}$ module:** Further pipelining the `NegThreeHalfExpRefine` stage could significantly improve the maximum operating frequency.
-2.  **Optimizing BPU activity:** During the velocity update phase, one BPU is idle while broadcasting its position. Eliminating this idle state could nearly double the performance in scenarios with few bodies.
-
-
+2.  **Optimizing BPU activity:** During the velocity update phase, the BPU broadcasting its position is idle. Eliminating this idle state by broadcasting and computing at once could nearly double the performance in the worst case scenarios.
 
 # To implement a chipyard design on an FPGA:
 # Requirments
