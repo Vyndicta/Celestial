@@ -1,7 +1,7 @@
 # Overview
 
 The accelerator is built with the following modules : 
-
+![The celestial accelerator](image.png)
 
 
 The top module receives the commands sent by the rocket core, and orchestrates the other modules to execute them. More detail is provided at [this page](celestial-top-module.md).
