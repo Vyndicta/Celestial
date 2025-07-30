@@ -6,11 +6,11 @@ The celestial top module serves as the main interface between the rocket core an
 
 The communication between the top module and the rocket core is accomplished through 64-bit packets sent to a data_in register. Each packet follows this structure:
 
-| Field | Size | Description |
-|-------|------|-------------|
-| Command | 8 bits | Specifies the action for the accelerator |
-| Lock key | 8 bits | Security mechanism for authorized requests |
-| Data | 48 bits | Values relevant to the command |
+| Field      | Bits    | Size     | Description                                |
+|------------|---------|----------|--------------------------------------------|
+| Command    | 63-59   | 5 bits   | Specifies the action for the accelerator   |
+| Lock key   | 58-32   | 27 bits  | Security mechanism for authorized requests |
+| Data       | 31-0    | 32 bits  | Values relevant to the command             |
 
 ## Supported commands
 
@@ -44,6 +44,33 @@ The accelerator supports the following commands:
 | 23        | 10111     | outputdZ                  | Bit flip mask    | Output velocity in Z. The target body processing unit must be specified previously using command 17.    |
 | 24        | 11000     | outputCollisionID         | –                | Output ID of the body that collided                                                                     |
 | 25-31     | -         | -                         | –                | Not implemented                                                                                         |
+
+## Implementation
+
+Overall, the top module simply translates the commands from the MMIO into commands for the switch module, stores XYZ data and forwards them when required as well as connecting the switch's output to the MMIO output when required.
+
+### Output Commands and Bit-Flip Mask
+
+The `outputX`, `outputY`, `outputZ`, `outputdX`, `outputdY`, and `outputdZ` commands are used to retrieve the state of a celestial body from a specified Body Processing Unit (BPU). To use these commands, you must first select the target BPU using the `setTarget (stand alone)` command (CMD 17).
+
+A key security feature of the output commands is the use of a **bit-flip mask**. When requesting data, the core must provide a 32-bit random value in the `Data` field of the packet. The accelerator then performs a bitwise XOR operation between this mask and the requested data (e.g., the X coordinate) before sending it back.
+
+`output_data = actual_data XOR bit_flip_mask`
+
+To reconstruct the original data, the core must perform a second XOR operation with the same mask:
+
+`actual_data = output_data XOR bit_flip_mask`
+
+This mechanism prevents a malicious actor from passively snooping on the communication bus to read the simulation data. Without the correct bit-flip mask, the intercepted data is meaningless.
+
+### Simulation Control
+
+-   **`startSimulation` (12):** Begins the n-body simulation. The accelerator will run for the number of iterations specified by `setTargetIterationNbr`.
+-   **`stopSimulation` (13):** Halts the simulation prematurely.
+-   **`setTargetIterationNbr` (14):** Sets the total number of time steps for the simulation.
+-   **`setNbrActivePEs` (15):** Configures the number of BPUs to be used in the simulation, allowing for simulations with fewer than the maximum number of bodies.
+-   **`keepAlive` (16):** Resets the inactivity timer to prevent the accelerator from automatically unlocking. This is useful during long periods of data setup or analysis.
+-   **`outputCollisionID` (24):** If a collision is detected and the `stopInCaseOfCollision` flag is set, this command retrieves the ID of the BPU whose body was involved in the collision.
 
 ## Usage
 
