@@ -10,17 +10,31 @@ The fast inverse square root algorithm is a clever method for approximating $y =
 
 ### Initial Estimate
 
-The algorithm leverages the binary representation of IEEE-754 floating-point numbers. A positive float $x$ can be written as $x = (1 + \frac{M_x}{N}) \cdot 2^{E_x-B}$, where $M_x$ is the mantissa, $E_x$ is the exponent, $N=2^{23}$, and $B$ is the exponent bias (127 for single precision).
+The algorithm leverages the binary representation of IEEE-754 floating-point numbers. A positive float $x$ can be written as:
+
+$$
+x = (1 + \frac{M_x}{N}) \cdot 2^{E_x-B}
+$$
+
+where $M_x$ is the mantissa, $E_x$ is the exponent, $N=2^{23}$, and $B$ is the exponent bias (127 for single precision).
 
 If we interpret the 32-bit representation of $x$ as an integer $I_x$, we get the relation:
-$I_x = E_x \cdot N + M_x$
+
+$$
+I_x = E_x \cdot N + M_x
+$$
 
 The core idea starts by taking the base-2 logarithm of the target equation $y = x^{-1/2}$:
-$$ \log_2(y) = -\frac{1}{2} \log_2(x) $$
+
+$$
+\log_2(y) = -\frac{1}{2} \log_2(x)
+$$
 
 Substituting the floating-point representation and using the linear approximation $\log_2(1+z) \approx z + \sigma$ (where $\sigma \approx 0.057304$ is a constant chosen to minimize error over the range $[0,1)$), we can relate the integer representations of $x$ and $y$:
 
-$$ I_y \approx \frac{3N}{2}(B - \sigma) - \frac{I_x}{2} $$
+$$
+I_y \approx \frac{3N}{2}(B - \sigma) - \frac{I_x}{2}
+$$
 
 The term $\frac{3N}{2}(B - \sigma)$ is a "magic number". For $\sigma = 0.057304$, this constant is approximately $1.597 \times 10^9$, which is `0x5F34FF64` in hexadecimal.
 
@@ -30,7 +44,11 @@ This gives a remarkably good first estimate for $I_y$ using only integer and bit
 ### Refining the Estimate
 
 The initial estimate can be improved using the Newton-Raphson method for root-finding. We seek a root of the function $f(y) = \frac{1}{y^2} - x$. The iterative refinement formula is:
-$$ y_{n+1} = y_n \left( \frac{3}{2} - \frac{x y_n^2}{2} \right) $$
+
+$$
+y_{n+1} = y_n \left( \frac{3}{2} - \frac{x y_n^2}{2} \right)
+$$
+
 Each iteration of this formula significantly improves the precision of the result.
 
 ## The Fast Negative Three-Half Algorithm
@@ -40,10 +58,16 @@ This algorithm adapts the principles of the fast inverse square root to directly
 ### Initial Estimate
 
 The derivation is similar. We start with the log equation:
-$$ \log_2(y) = -\frac{3}{2} \log_2(x) $$
+
+$$
+\log_2(y) = -\frac{3}{2} \log_2(x)
+$$
 
 Following the same substitution and approximation steps, we arrive at a new relationship between the integer representations:
-$$ I_y \approx \frac{5N}{2}(B - \sigma) - \frac{3I_x}{2} $$
+
+$$
+I_y \approx \frac{5N}{2}(B - \sigma) - \frac{3I_x}{2}
+$$
 
 The magic number for this calculation, $\frac{5N}{2}(B - \sigma)$, is `0x9EADA9A8`. The initial estimate is therefore:
 `I_y = 0x9EADA9A8 - (3 * I_x) >> 1`
@@ -53,10 +77,16 @@ The magic number for this calculation, $\frac{5N}{2}(B - \sigma)$, is `0x9EADA9A
 To refine the estimate, we again use the Newton-Raphson method. The most suitable function for this problem is $f(y) = -x^3 + \frac{1}{y^2}$. This choice avoids costly division operations in the refinement step.
 
 The first-order (d=1, standard Newton-Raphson) refinement formula is:
-$$ y_{n+1} = \frac{y_n(3 - x^3 y_n^2)}{2} $$
+
+$$
+y_{n+1} = \frac{y_n(3 - x^3 y_n^2)}{2}
+$$
 
 The second-order (d=2) Householder's method gives a more complex formula:
-$$ y_{n+1} = \frac{y_n(3x^6y^4 - 10x^3y^2 + 15)}{8} $$
+
+$$
+y_{n+1} = \frac{y_n(3x^6y^4 - 10x^3y^2 + 15)}{8}
+$$
 
 ## Comparison and Conclusion
 
@@ -86,4 +116,9 @@ The choice is between the cubed fast inverse square root and the custom fast neg
 -   Cubed Fast Inverse SqRt with 3 iterations.
 -   Fast Neg. 3/2 (d=1) with 3 iterations.
 
-The **Fast Negative Three-Half algorithm with 3 refinement iterations** was chosen for the hardware implementation. It requires 15 cycles, a ~7% improvement over the 16 cycles of the alternative, while the precision is only slightly lower. This trade-off was deemed favorable for the accelerator's velocity update flow. 
+The **Fast Negative Three-Half algorithm with 3 refinement iterations** was chosen for the hardware implementation. It requires 15 cycles, a ~7% improvement over the 16 cycles of the alternative, while the precision is only slightly lower. This trade-off was deemed favorable for the accelerator's velocity update flow.
+
+## References
+
+1.  McEniry, C. (2007). *The mathematics behind the fast inverse square root function code*.
+2.  Moroz, L. V., Walczyk, C. J., Hrynchyshyn, A., Holimath, V., & Cieśliński, J. L. (2018). Fast calculation of inverse square root with the use of magic constant – analytical approach. *Applied mathematics and computation*, 316, 245-255.
