@@ -252,10 +252,10 @@ The next subsection compares the remaining two refining formulas ($$-x^3 + \frac
 
 **Table: Comparison of the fast inverse square root and fast negative three half algorithms**
 
-| Method | Fast inverse square root initial estimate, cubed | | | | Fast negative three half exponent | | | | | |
+| Method | Fast inverse square root initial estimate, cubed ||||  Fast negative three half exponent ||||||
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **Initial estimate** | $0x5F34FF64 - (I_x >> 1)$ | | | | $0x5F2DA9A8 - ((3*I_x)>>1)$ | | | | | |
-| **Refinement** | $\frac{y(3 - xy^2)}{2}$ | | | | $\frac{y(3 - x^3y^2)}{2}$ | | | | $\frac{y(3x^6y^4 - 10x^3y^2 + 15)}{8}$ | |
+| **Initial estimate** | $$0x5F34FF64 - (I_x >> 1)$$ |||| $$0x5F2DA9A8 - ((3*I_x)>>1)$$ |||||
+| **Refinement** | $$\frac{y(3 - xy^2)}{2}$$ |||| $$\frac{y(3 - x^3y^2)}{2}$$ |||| $$\frac{y(3x^6y^4 - 10x^3y^2 + 15)}{8}$$ ||
 | **Number of refining iterations** | 0 | 1 | 2 | 3 | 0 | 1 | 2 | 3 | 1 | 2 |
 | **Cost (cycles)** | 3 | 8 | 12 | 16 | 1 | 7 | 11 | 15 | 12 | 20 |
 | **Average relative error** | 0.0504 | 0.0018 | 4.1826e-06 | 3.6510e-08 | 0.0343 | 0.0026 | 2.1075e-05 | 3.7428e-08 | 2.5527e-04 | 4.7846e-08 |
