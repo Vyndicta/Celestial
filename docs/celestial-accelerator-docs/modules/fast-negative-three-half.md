@@ -56,15 +56,15 @@ To minimize the total error, `σ = 0.057304...`. This computation is detailed in
 <div style="display: flex; gap: 16px; align-items: flex-start;">
     <div style="flex: 1; text-align: center;">
         <img src="../assets/ComparingSigma.png" alt="Error with sigma" style="max-width: 100%;"><br>
-        <em>Figure 1: Error with $\sigma$ (first case)</em>
+        <em>Figure 1: Estimation with and without $$\sigma$ $</em>
     </div>
     <div style="flex: 1; text-align: center;">
         <img src="../assets/ComparingSigma2.png" alt="Error with sigma" style="max-width: 100%;"><br>
-        <em>Figure 2: Error with $\sigma$ (second case)</em>
+        <em>Figure 2: Error with and without $$\sigma$$</em>
     </div>
 </div>
 
-> **Note:** Adding a small offset to the first order Taylor approximation allows for a closer fit in the range $$[0, 1)$$. While the absolute value of the error is higher at the end than at the start with the offset, the overall error is lower with the offset.
+> **Note:** Adding a small offset to the first order Taylor approximation allows for a closer fit in the range $$[0, 1)$$. While the absolute value of the error is higher at the end and at the start with the offset, the overall error is lower with the offset.
 
 
 $$M_y/N$$ is in the range $$[0, 1)$$. Thus, the approximation can be injected into the previous equation yields:
@@ -103,7 +103,12 @@ $$
 
 Using this formula for the magic number yields the following result:
 
-![Relative error of fast inverse square root](../assets/RelativeErrorFInvSqRoot.png)
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+    <div style="flex: 1; text-align: center;">
+        <img src="../assets/RelativeErrorFInvSqRoot.png" alt="Relative error of fast inverse square root" style="max-width: 100%;"><br>
+        <em>Figure 3: Relative error of the fast inverse square root initial estimate.</em>
+    </div>
+</div>
 
 ### Refining the estimate
 
@@ -128,7 +133,12 @@ yields :
 
 The results using this formula for one and two iterations of the refinement are shown below:
 
-![Relative error after refining](../assets/RelativeErrorFInvSqRootAfterRefining.png)
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+    <div style="flex: 1; text-align: center;">
+        <img src="../assets/RelativeErrorFInvSqRootAfterRefining.png" alt="Relative error after refining" style="max-width: 100%;"><br>
+        <em>Figure 4: Relative error of the fast inverse square root after refining.</em>
+    </div>
+</div>
 
 ## The fast negative three half algorithm
 
