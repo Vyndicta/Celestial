@@ -10,27 +10,27 @@ The fast inverse square root algorithm is a well known method for approximating 
 
 ### Initial Estimate
 
-The algorithm leverages the binary representation of IEEE-754 floating-point numbers. A positive float $x$ can be written as:
+The algorithm leverages the binary representation of IEEE-754 floating-point numbers. A positive float $$x$$ can be written as:
 
 $$
 x = (1 + \frac{M_x}{N}) \cdot 2^{E_x-B}
 $$
 
-where $M_x$ is the mantissa, $E_x$ is the exponent, $$N=2^{23}$$, and $$B$$ is the exponent bias (127 for single precision).
+where $$M_x$$ is the mantissa, $$E_x$$ is the exponent, $$N=2^{23}$$, and $$B$$ is the exponent bias (127 for single precision).
 
-If we interpret the 32-bit representation of $x$ as an integer $I_x$, we get the relation:
+If we interpret the 32-bit representation of $$x$$ as an integer $$I_x$$, we get the relation:
 
 $$
 I_x = E_x \cdot N + M_x
 $$
 
-The core idea starts by taking the base-2 logarithm of the target equation $y = x^{-1/2}$:
+The core idea starts by taking the base-2 logarithm of the target equation $$y = x^{-1/2}$$:
 
 $$
 ln(y) = -\frac{1}{2} ln(x)
 $$
 
-The first order Taylor approximation of ln(1+x) is x. Then, since due to the floating point representation, x is within $[0,1($, this approximation can be refined by adding a constant value, yielding:
+The first order Taylor approximation of ln(1+x) is x. Then, since due to the floating point representation, x is within $$[0,1($$, this approximation can be refined by adding a constant value, yielding:
 $ln(1+z) \approx z + \sigma$ (where $\sigma \approx 0.057304$ is a constant chosen to minimize error over the range $[0,1)$).
 This can be used on the integer previous equation with $x$ and $y$:
 
@@ -38,14 +38,14 @@ $$
 I_y \approx \frac{3N}{2}(B - \sigma) - \frac{I_x}{2}
 $$
 
-The term $\frac{3N}{2}(B - \sigma)$ is known as the "magic number". For $\sigma = 0.057304$, this constant is approximately $1.597 \times 10^9$, which is `0x5F34FF64` in hexadecimal.
+The term $$\frac{3N}{2}(B - \sigma)$$ is known as the "magic number". For $$\sigma = 0.057304$$, this constant is approximately $$1.597 \times 10^9$$, which is `0x5F34FF64` in hexadecimal.
 
-This gives a remarkably good first estimate for $I_y$ using only integer and bit-shifting operations:
+This gives a remarkably good first estimate for $$I_y$$ using only integer and bit-shifting operations:
 `I_y = 0x5F34FF64 - (I_x >> 1)`
 
 ### Refining the Estimate
 
-The initial estimate can be improved using the Newton-Raphson method for root-finding. We seek a root of the function $f(y) = \frac{1}{y^2} - x$. The iterative refinement formula is:
+The initial estimate can be improved using the Newton-Raphson method for root-finding. We seek a root of the function $$f(y) = \frac{1}{y^2} - x$$. The iterative refinement formula is:
 
 $$
 y_{n+1} = y_n \left( \frac{3}{2} - \frac{x y_n^2}{2} \right)
@@ -55,7 +55,7 @@ Each iteration of this formula significantly improves the precision of the resul
 
 ## The Fast Negative Three-Half Algorithm
 
-This algorithm adapts the principles of the fast inverse square root to directly compute $y = x^{-3/2}$.
+This algorithm adapts the principles of the fast inverse square root to directly compute $$y = x^{-3/2}$$.
 
 ### Initial Estimate
 
