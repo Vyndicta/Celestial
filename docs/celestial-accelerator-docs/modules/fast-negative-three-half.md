@@ -289,10 +289,10 @@ The next subsection compares the remaining two refining formulas ($$-x^3 + \frac
 
 The cost is approximated assuming 1 cycle for each addition or multiplication, no parallelism, but assuming data re use (for $$x^3$$, $$x^6$$). The division by two of an integer is not considered as a full clock cycle, as it can be done by shifting the bits. The average relative error was computed using Matlab, for 10 000 logarithmically spaced numbers ranging from $$10^{-6}$$ to $$10^{6}$$.
 
-The table showcases that Householder's method with d=2 has a very poor cycle/precision ratio, which, in addition to its narrow range due to the use of $x^6$, makes it irrelevant. The true competition is between a cubed version of the fast inverse square root and the introduced fast negative three half exponent refined using the second order function. 
+The table showcases that Householder's method with d=2 has a very poor cycle/precision ratio, which, in addition to its narrow range due to the use of $$x^6$$, makes it irrelevant. The true competition is between a cubed version of the fast inverse square root and the introduced fast negative three half exponent refined using the second order function. 
 
 As the simulated systems can show chaotic behaviours, a good precision is crucial to ensure the accuracy of the result. Based on this observation, an arbitrary threshold of 1e-6 relative error was chosen. This leaves two possibilities, 3 iterations of fast inverse square root, or 3 iterations of fast negative three half exponent.
-The second option requires 1 cycle less (around a 7% improvement), but a degradation of the relative precision of around 2.5 \%. As the cycle count improvement is two times larger than the degradation in precision, the fast negative three half exponent with 3 iterations of refinement using Householder's method with d=1 (equivalent to the Newton-Raphson method) was used for the velocity update flow.
+The second option requires 1 cycle less (around a 7% improvement), but a degradation of the relative precision of around 2.5 %. As the cycle count improvement is two times larger than the degradation in precision, the fast negative three half exponent with 3 iterations of refinement using Householder's method with d=1 (equivalent to the Newton-Raphson method) was used for the velocity update flow.
 
 ## References
 
