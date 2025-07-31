@@ -22,7 +22,7 @@ Each object processing unit contains four main sub-modules:
 
 
 
-\par The first task, the position update, is straightforward, requiring only 3 multiplication and additions:
+ The first task, the position update, is straightforward, requiring only 3 multiplication and additions:
 
 $$
 \begin{cases}
@@ -39,10 +39,7 @@ $$
 
 Since the adder/subtracter and multiplier modules can be used in parallel, the position update can be computed in four cycles: at the first cycle, the time step and X velocity are multiplied and the result is stored in a register acting as buffer. At the second step, the result in this buffer is added to the position in X. At the same cycle, the Y velocity is multiplied with the time step, and the result is stored in the buffer. The same process is then repeated for the Z axis. In total, this process thus takes 4 cycles.
 
-
-
-
-\par The second task, the output selection according to the slct signal, can be done using a simple mux. The third task, however, requires more computation, as the normalised direction vector from one celestial body to another must be computed. It can be observed that the weight of the body who's velocity is updated can be simplified out of the equation, as shown in equation below:
+The second task, the output selection according to the slct signal, can be done using a simple mux. The third task, however, requires more computation, as the normalised direction vector from one celestial body to another must be computed. It can be observed that the weight of the body who's velocity is updated can be simplified out of the equation, as shown in equation below:
 
 $$
 \vec{v}_{1,n+1} = \vec{v}_{1,n} +  dt \cdot \frac{m_1 \cdot m_2 \cdot G \cdot \frac{\vec{1}_d}{||\vec{d}||^2}}{m_1} =  \vec{v}_{1,n} +  dt \cdot m_2 \cdot G \cdot \frac{\vec{1}_d}{||\vec{d}||^2}
