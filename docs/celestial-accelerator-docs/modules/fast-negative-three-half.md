@@ -19,7 +19,7 @@ $$ \label{fAsInt}
 $$
 Where $$I_x$$ is the float interpreted as an integer, $E_x$ is the exponent of the floating point number, N is $$2^{23}$$ and $$M_x$$ is the mantissa. 
 
-When looking for the inverse square root \cite{fInvRoot}: \\
+When looking for the inverse square root : \\
 
 $$
 y=\frac{1}{\sqrt{x}}
@@ -147,11 +147,12 @@ $$
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y-B = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x-B)
 $$
 $$ 
+    \label{logFastNegThreeHalf}
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x) + \frac{5B}{2} 
 $$
 
 
-Injecting equation \ref{log2Approx}, $$log_2 (1+x) \simeq x + \sigma $$, into \ref{logFastNegThreeHalf} yields : 
+Injecting equation approximation of log2 with bias correction, $$log_2 (1+x) \simeq x + \sigma $$, into the equation above, yields : 
 
 $$
 	\frac{M_y}{N} + \sigma +  E_y \simeq -\frac{3}{2} ( \frac{M_x}{N} + \sigma +E_x) + \frac{5B}{2} 
