@@ -252,14 +252,39 @@ The next subsection compares the remaining two refining formulas ($$-x^3 + \frac
 
 **Table: Comparison of the fast inverse square root and fast negative three half algorithms**
 
-| Method | Fast inverse square root initial estimate, cubed ||||  Fast negative three half exponent ||||||
-|:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **Initial estimate** | $$0x5F34FF64 - (I_x >> 1)$$ |||| $$0x5F2DA9A8 - ((3*I_x)>>1)$$ |||||
-| **Refinement** | $$\frac{y(3 - xy^2)}{2}$$ |||| $$\frac{y(3 - x^3y^2)}{2}$$ |||| $$\frac{y(3x^6y^4 - 10x^3y^2 + 15)}{8}$$ ||
-| **Number of refining iterations** | 0 | 1 | 2 | 3 | 0 | 1 | 2 | 3 | 1 | 2 |
-| **Cost (cycles)** | 3 | 8 | 12 | 16 | 1 | 7 | 11 | 15 | 12 | 20 |
-| **Average relative error** | 0.0504 | 0.0018 | 4.1826e-06 | 3.6510e-08 | 0.0343 | 0.0026 | 2.1075e-05 | 3.7428e-08 | 2.5527e-04 | 4.7846e-08 |
-
+<table>
+  <tr>
+    <th rowspan="2">Method</th>
+    <th colspan="4">Fast inverse square root initial estimate, cubed</th>
+    <th colspan="6">Fast negative three half exponent</th>
+  </tr>
+  <tr>
+    <th colspan="4"><code>0x5F34FF64 - (I_x &gt;&gt; 1)</code></th>
+    <th colspan="6"><code>0x5F2DA9A8 - ((3*I_x)&gt;&gt;1)</code></th>
+  </tr>
+  <tr>
+    <td><strong>Refinement</strong></td>
+    <td colspan="4"><code>\(\frac{y (3 - x y^2)}{2}\)</code></td>
+    <td colspan="4"><code>\(\frac{y (3 - x^3 y^2)}{2}\)</code></td>
+    <td colspan="2"><code>\(\frac{y (3x^6 y^4 - 10x^3 y^2 + 15)}{8}\)</code></td>
+  </tr>
+  <tr>
+    <td><strong>Number of refining iterations</strong></td>
+    <td>0</td><td>1</td><td>2</td><td>3</td>
+    <td>0</td><td>1</td><td>2</td><td>3</td><td>1</td><td>2</td>
+  </tr>
+  <tr>
+    <td><strong>Cost (cycles)</strong></td>
+    <td>3</td><td>8</td><td>12</td><td>16</td>
+    <td>1</td><td>7</td><td>11</td><td>15</td><td>12</td><td>20</td>
+  </tr>
+  <tr>
+    <td><strong>Average relative error</strong></td>
+    <td>0.0504</td><td>0.0018</td><td>4.1826e-06</td><td>3.6510e-08</td>
+    <td>0.0343</td><td>0.0026</td><td>2.1075e-05</td><td>3.7428e-08</td>
+    <td>2.5527e-04</td><td>4.7846e-08</td>
+  </tr>
+</table>
 
 The cost is approximated assuming 1 cycle for each addition or multiplication, no parallelism, but assuming data re use (for $$x^3$$, $$x^6$$). The division by two of an integer is not considered as a full clock cycle, as it can be done by shifting the bits. The average relative error was computed using Matlab, for 10 000 logarithmically spaced numbers ranging from $$10^{-6}$$ to $$10^{6}$$.
 
