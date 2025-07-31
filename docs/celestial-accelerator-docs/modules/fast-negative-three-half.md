@@ -224,15 +224,21 @@ $$
 
 **Table: Comparison of different orders of Householder's method, based on multiple functions.**
 
-| $f(y)$ | $- x^{9} + \frac{1}{y^{6}}$ | $- x^{6} + \frac{1}{y^{4}}$ | $- x^{3} + \frac{1}{y^{2}}$ | $y^{2} - \frac{1}{x^{3}}$ | $y^{4} - \frac{1}{x^{6}}$ | $y^{6} - \frac{1}{x^{9}}$ |
-|---|---|---|---|---|---|---|
-| $f'(y)$ | $- \frac{6}{y^{7}}$ | $- \frac{4}{y^{5}}$ | $- \frac{2}{y^{3}}$ | $2 y$ | $4 y^{3}$ | $6 y^{5}$ |
-| $f''(y)$ | $\frac{42}{y^{8}}$ | $\frac{20}{y^{6}}$ | $\frac{6}{y^{4}}$ | $2$ | $12 y^{2}$ | $30 y^{4}$ |
-| $y_{n+1}$ (d=1) | $\frac{y_n \left(- x^{9} y_n^{6} + 7\right)}{6}$ | $\frac{y_n \left(- x^{6} y_n^{4} + 5\right)}{4}$ | $\frac{y_n \left(- x^{3} y_n^{2} + 3\right)}{2}$ | $\frac{y_n}{2} + \frac{1}{2 x^{3} y_n}$ | $\frac{3 y_n}{4} + \frac{1}{4 x^{6} y_n^{3}}$ | $\frac{5 y_n}{6} + \frac{1}{6 x^{9} y_n^{5}}$ |
-| $y_{n+1}$ (d=2) | $\frac{y_n \left(7 x^{18} y_n^{12} - 26 x^{9} y_n^{6} + 91\right)}{72}$ | $\frac{y_n \left(5 x^{12} y_n^{8} - 18 x^{6} y_n^{4} + 45\right)}{32}$ | $\frac{y_n \left(3 x^{6} y_n^{4} - 10 x^{3} y_n^{2} + 15\right)}{8}$ | $\frac{3 y_n}{8} + \frac{3}{4 x^{3} y_n} - \frac{1}{8 x^{6} y_n^{3}}$ | $\frac{21 y_n}{32} + \frac{7}{16 x^{6} y_n^{3}} - \frac{3}{32 x^{12} y_n^{7}}$ | $\frac{55 y_n}{72} + \frac{11}{36 x^{9} y_n^{5}} - \frac{5}{72 x^{18} y_n^{11}}$ |
-| $y_{n+1}$ (d=3) | $\frac{y_n \left(- 21 x^{27} y_n^{18} + 77 x^{18} y_n^{12} - 115 x^{9} y_n^{6} + 203\right)}{144}$ | $\frac{y_n \left(- 95 x^{18} y_n^{12} + 345 x^{12} y_n^{8} - 501 x^{6} y_n^{4} + 635\right)}{384}$ | $\frac{y_n \left(- 11 x^{9} y_n^{6} + 39 x^{6} y_n^{4} - 53 x^{3} y_n^{2} + 41\right)}{16}$ | $\frac{13 y_n}{48} + \frac{17}{16 x^{3} y_n} - \frac{7}{16 x^{6} y_n^{3}} + \frac{5}{48 x^{9} y_n^{5}}$ | $\frac{71 x^{18} y_n^{12} + 95 x^{12} y_n^{8} - 51 x^{6} y_n^{4} + 13}{128 x^{18} y_n^{11}}$ | $\frac{295 x^{27} y_n^{18} + 237 x^{18} y_n^{12} - 135 x^{9} y_n^{6} + 35}{432 x^{27} y_n^{17}}$ |
+| $$f(y)$$ | $$- x^{9} + \frac{1}{y^{6}}$$ | $$- x^{6} + \frac{1}{y^{4}}$$ | $$- x^{3} + \frac{1}{y^{2}}$$ | $$y^{2} - \frac{1}{x^{3}}$$ | $$y^{4} - \frac{1}{x^{6}}$$ | $$y^{6} - \frac{1}{x^{9}}$$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| $$f'(y)$$ | $$- \frac{6}{y^{7}}$$ | $$- \frac{4}{y^{5}}$$ | $$- \frac{2}{y^{3}}$$ | $$2 y$$ | $$4 y^{3}$$ | $$6 y^{5}$$ |
+| $$f''(y)$$ | $$\frac{42}{y^{8}}$$ | $$\frac{20}{y^{6}}$$ | $$\frac{6}{y^{4}}$$ | $$2$$ | $$12 y^{2}$$ | $$30 y^{4}$$ |
+| $$y_{n+1}$$ (d=1) | $$\frac{y_n \left(- x^{9} y_n^{6} + 7\right)}{6}$$ | $$\frac{y_n \left(- x^{6} y_n^{4} + 5\right)}{4}$$ | $$\frac{y_n \left(- x^{3} y_n^{2} + 3\right)}{2}$$ | $$\frac{y_n}{2} + \frac{1}{2 x^{3} y_n}$$ | $$\frac{3 y_n}{4} + \frac{1}{4 x^{6} y_n^{3}}$$ | $$\frac{5 y_n}{6} + \frac{1}{6 x^{9} y_n^{5}}$$ |
+| $$y_{n+1}$$ (d=2) | $$\frac{y_n \left(7 x^{18} y_n^{12} - 26 x^{9} y_n^{6} + 91\right)}{72}$$ | $$\frac{y_n \left(5 x^{12} y_n^{8} - 18 x^{6} y_n^{4} + 45\right)}{32}$$ | $$\frac{y_n \left(3 x^{6} y_n^{4} - 10 x^{3} y_n^{2} + 15\right)}{8}$$ | $$\frac{3 y_n}{8} + \frac{3}{4 x^{3} y_n} - \frac{1}{8 x^{6} y_n^{3}}$$ | $$\frac{21 y_n}{32} + \frac{7}{16 x^{6} y_n^{3}} - \frac{3}{32 x^{12} y_n^{7}}$$ | $$\frac{55 y_n}{72} + \frac{11}{36 x^{9} y_n^{5}} - \frac{5}{72 x^{18} y_n^{11}}$$ |
+| $$y_{n+1}$$ (d=3) | $$\frac{y_n \left(- 21 x^{27} y_n^{18} + 77 x^{18} y_n^{12} - 115 x^{9} y_n^{6} + 203\right)}{144}$$ | $$\frac{y_n \left(- 95 x^{18} y_n^{12} + 345 x^{12} y_n^{8} - 501 x^{6} y_n^{4} + 635\right)}{384}$$ | $$\frac{y_n \left(- 11 x^{9} y_n^{6} + 39 x^{6} y_n^{4} - 53 x^{3} y_n^{2} + 41\right)}{16}$$ | $$\frac{13 y_n}{48} + \frac{17}{16 x^{3} y_n} - \frac{7}{16 x^{6} y_n^{3}} + \frac{5}{48 x^{9} y_n^{5}}$$ | $$\frac{71 x^{18} y_n^{12} + 95 x^{12} y_n^{8} - 51 x^{6} y_n^{4} + 13}{128 x^{18} y_n^{11}}$$ | $$\frac{295 x^{27} y_n^{18} + 237 x^{18} y_n^{12} - 135 x^{9} y_n^{6} + 35}{432 x^{27} y_n^{17}}$$ |
 
----
+<style>
+table, th, td {
+    border: 1px solid #444;
+    border-collapse: collapse;
+    padding: 6px;
+}
+</style>
 
 As an inversion would require an additional module, all the formulas that have an unknown in the denominator would not make a good choice. This automatically disqualifies the results in the three columns at the right. The three columns on the left are similar, but  $-x^3 + \frac{1}{y^2}$'s row requires less exponents and is therefore less computationally intensive. Therefore, it was concluded that $-x^3 + \frac{1}{y^2}$ yields the best results. The equation for d=3 has large exponents that would place too much constraint on the range and was therefore not investigated.
 
