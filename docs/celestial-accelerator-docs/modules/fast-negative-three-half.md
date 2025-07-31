@@ -85,7 +85,7 @@ I_y \approx \frac{3N}{2} (B - \sigma) - \frac{I_x}{2}
 $$
 
 
-The term $$\frac{3N}{2} (B - \sigma)$$, often referred to as the "magic number", can take different values depending on the value of $$\sigma$$ used. For $$\sigma = 0.057304$$, $$\frac{3N}{2} (B - \sigma) = 1.5973087728 \times 10^9 = 0x5F34FF64$$.
+The term $$\frac{3N}{2} (B - \sigma)$$, often referred to as the "magic number", can take different values depending on the value of $$\sigma$$ used. For $$\sigma = 0.057304$$, $$\frac{3N}{2} (B - \sigma) = 1.5973087728 \cdot 10^9 = 0x5F34FF64$$.
 
 Which yields:
 
@@ -181,9 +181,10 @@ $$
 	\leftrightarrow I_y   \simeq  \frac{5N}{2} \cdot (B -  \sigma )  - \frac{3 I_x}{2}
 $$
 
-As in the appendix, a value of $$\sigma = 0.057304$$ is used to compute the "magic number", yielding:  $$  \frac{5N}{2} \cdot (B -  \sigma ) = 2.662181288\times10^{9} = 0x9EADA9A8$$
+As before, a value of $$\sigma = 0.057304$$ is used to compute the "magic number", yielding:  $$  \frac{5N}{2} \cdot (B -  \sigma ) = 2.662181288\times10^{9} = 0x9EADA9A8$$
 
-Compared to the fast inverse square root algorithm's first estimation, a times 3 multiplication appears, which makes the initial estimate slightly more costly.
+Compared to the fast inverse square root algorithm's first estimation, a times 3 multiplication appears, which makes the initial estimate slightly more costly:
+
 $$
 	I_y \simeq 0x5F2DA9A8 - ((3*I_x)>>1)
 $$
@@ -192,8 +193,13 @@ $$
 ### Refining the estimate
 The fast inverse square root uses the Newton-Raphson method to refine the estimate. The Newton-Raphson is equivalent to the first order Householder's method. To refine the estimate of the result in the fast negative three half algorithm, multiple orders of the Householder's method were investigated. The main difficulty is to find the appropriate function on which to base this method, to avoid computationally costly refinement. The initial equation is:
 $$
+	y=x^{-3/2} \leftrightarrow y^2=x^{-3}
+$$
+
+From which many other equations can be written:
+
+$$
 	y=x^{-3/2} \leftrightarrow y^2=x^{-3} \leftrightarrow y^2x^3=1 \leftrightarrow y^{-2}x^{-3}=1 \leftrightarrow y^{4}x^{6}=1
-	\label{PossEqsNegThreeRaw}
 $$
 
 The Householder method is a root finding algorithm, where successive refinements of the approximated zero's position are made. It has the following expression:
