@@ -1,3 +1,26 @@
+<style>
+table {
+  border-collapse: collapse;
+  width: 70%;
+  margin-bottom: 1em;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 4px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #333;
+}
+
+th {
+  background-color: #444;
+}
+</style>
+
+
 # Celestial top module
 
 The celestial top module serves as the main interface between the rocket core and the accelerator. It handles communication, coordinates the simulation process, and manages the overall control flow of the n-body simulation.
