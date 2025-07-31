@@ -47,6 +47,7 @@ $$
 Using the first order Taylor approximation, $$\log_2(1 + x) \approx x$$. For $$x$$ in $$[0, 1)$$, the overall error can be reduced by adding a bias term (see [1]):
 
 $$
+\label{log2Approx}
 \log_2(1 + x) \approx x + \sigma
 $$
 
@@ -124,14 +125,14 @@ The results using this formula for one and two iterations of the refinement are 
 ## The Fast Negative Three Half Algorithm
 
 
-The proposed method is inspired from the inverse square root method, which is described in the appendix (see section "Fast Inverse Square Root"). As far as the author's knowledge goes, it is the first time such a method was proposed. This is likely because $$x^{-3/2}$$ can also be found by first computing $$x^{-1/2}$$ using the fast inverse square root method, and then multiplying $$x^{-1/2}$$ with itself three times. A comparison of the fast negative three half algorithm exponent and the fast inverse square root algorithm followed by two multiplications to obtain a similar result is presented at the end of the section.
+The proposed method is inspired from the inverse square root method, described above. As far as the author's knowledge goes, it is the first time such a method was proposed. This is likely because $$x^{-3/2}$$ can also be found by first computing $$x^{-1/2}$$ using the fast inverse square root method, and then multiplying $$x^{-1/2}$$ with itself three times. A comparison of the fast negative three half algorithm exponent and the fast inverse square root algorithm followed by two multiplications to obtain a similar result is presented at the end of the section.
 
-The method works by first computing a rough estimate of the result, then refining it using the Newton-Raphson method.
+Like the fast inverse square root, this method works by first computing a rough estimate of the result, then refining it using the Newton-Raphson method.
 
 
 ### Initial estimate
 
-The initial estimate process is based on the same assumptions as the fast inverse square root method. (As detailed in the appendix, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$.)
+The initial estimate process is based on the same assumptions as the fast inverse square root method. As mentionned previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$.
 For two positive IEE-754 floating point numbers,  $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ and  $$y=(1+ \frac{M_y}{N} ) \cdot 2^{E_y-B}$$ (see appendix for detail), following the equation:
 $$
 	y=\frac{1}{x^{3/2}}
@@ -145,7 +146,7 @@ $$
 $$
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y-B = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x-B)
 $$
-$$ \label{logFastNegThreeHalf}
+$$ 
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x) + \frac{5B}{2} 
 $$
 
