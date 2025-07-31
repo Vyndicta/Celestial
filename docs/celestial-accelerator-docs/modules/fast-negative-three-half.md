@@ -44,7 +44,7 @@ $$
 $$
 
 
-Using the first order Taylor approximation, $$\log_2(1 + x) \approx x$$. For $x$ in $[0, 1)$, the overall error can be reduced by adding a bias term (see [1]):
+Using the first order Taylor approximation, $$\log_2(1 + x) \approx x$$. For $$x$$ in $$[0, 1)$$, the overall error can be reduced by adding a bias term (see [1]):
 
 $$
 \log_2(1 + x) \approx x + \sigma
