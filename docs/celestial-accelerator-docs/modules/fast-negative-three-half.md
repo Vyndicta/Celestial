@@ -110,14 +110,14 @@ $$
 $$
 f'(y) = -\frac{2}{y^3}
 $$
-
+Using the Newton-Raphson method:
 $$
 y_{n+1} = y_n - \frac{f(y_n)}{f'(y_n)} = y_n - \frac{\frac{1}{y_n^2} - x}{-\frac{2}{y_n^3}} = y_n + \frac{y_n}{2} - x y_n^3 = y_n \left(\frac{3}{2} - x y_n^2\right)
 $$
 
 The results using this formula for one and two iterations of the refinement are shown below:
 
-![Relative error after refining](../assets/PerfGraph.png)
+![Relative error after refining](../assets/RelativeErrorFInvSqRootAfterRefining.png)
 
 ## References
 
