@@ -134,6 +134,7 @@ Like the fast inverse square root, this method works by first computing a rough 
 
 The initial estimate process is based on the same assumptions as the fast inverse square root method. As mentionned previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$.
 For two positive IEE-754 floating point numbers,  $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ and  $$y=(1+ \frac{M_y}{N} ) \cdot 2^{E_y-B}$$:
+
 $$
 	y=\frac{1}{x^{3/2}}
 $$
@@ -161,9 +162,11 @@ Injecting equation approximation of log2 with bias correction, $$log_2 (1+x) \si
 $$
 	\frac{M_y}{N} + \sigma +  E_y \simeq -\frac{3}{2} ( \frac{M_x}{N} + \sigma +E_x) + \frac{5B}{2} 
 $$
-As detailed previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$. Placing  $$I_x$$ and $$I_y$$ in evidence:
+
+As detailed previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$. Placing $$I_x$$ and $$I_y$$ in evidence:
+
 $$
-	\leftrightarrow\t \frac{M_y}{N} +  E_y+ \sigma  \simeq -\frac{3}{2} ( \frac{M_x}{N} +E_x  + \sigma) + \frac{5B}{2} 
+	\leftrightarrow \frac{M_y}{N} +  E_y+ \sigma  \simeq -\frac{3}{2} ( \frac{M_x}{N} +E_x  + \sigma) + \frac{5B}{2} 
 $$
 
 $$
