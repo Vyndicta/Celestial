@@ -52,6 +52,9 @@ $$
 
 To minimize the total error, `σ = 0.057304...`. This computation is detailed in [1].
 
+![Error with sigma](../assets/ComparingSigma.png)
+![Error with sigma](../assets/ComparingSigma2.png)
+
 > **Note:** Adding a small offset to the first order Taylor approximation allows for a closer fit in the range $$[0, 1)$$. While the absolute value of the error is higher at the end than at the start with the offset, the overall error is lower with the offset.
 
 
@@ -91,7 +94,7 @@ $$
 
 Using this formula for the magic number yields the following result:
 
-![Relative error of fast inverse square root](../assets/image.png)
+![Relative error of fast inverse square root](../assets/RelativeErrorFInvSqRoot.png)
 
 ### Refining the Estimate
 
