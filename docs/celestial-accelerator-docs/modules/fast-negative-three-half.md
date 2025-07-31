@@ -248,7 +248,7 @@ As an inversion would require an additional module, all the formulas that have a
 
 The next subsection compares the remaining two refining formulas ($$-x^3 + \frac{1}{y^2}$$ for d = 1, 2) and the fast inverse square root algorithm to determine the best choice.
 
-# Comparing the two methods
+## Comparing the two methods
 
 **Table: Comparison of the fast inverse square root and fast negative three half algorithms**
 
@@ -259,14 +259,14 @@ The next subsection compares the remaining two refining formulas ($$-x^3 + \frac
     <th colspan="6">Fast negative three half exponent</th>
   </tr>
   <tr>
-    <th colspan="4"><code>0x5F34FF64 - (I_x &gt;&gt; 1)</code></th>
-    <th colspan="6"><code>0x5F2DA9A8 - ((3*I_x)&gt;&gt;1)</code></th>
+    <th colspan="4">$$0x5F34FF64 - (I_x \gg 1)$$</th>
+    <th colspan="6">$$0x5F2DA9A8 - ((3 \cdot I_x) \gg 1)$$</th>
   </tr>
   <tr>
     <td><strong>Refinement</strong></td>
-    <td colspan="4"><code>\(\frac{y (3 - x y^2)}{2}\)</code></td>
-    <td colspan="4"><code>\(\frac{y (3 - x^3 y^2)}{2}\)</code></td>
-    <td colspan="2"><code>\(\frac{y (3x^6 y^4 - 10x^3 y^2 + 15)}{8}\)</code></td>
+    <td colspan="4">$$\frac{y (3 - x y^2)}{2}$$</td>
+    <td colspan="4">$$\frac{y (3 - x^3 y^2)}{2}$$</td>
+    <td colspan="2">$$\frac{y \left(3x^6 y^4 - 10x^3 y^2 + 15\right)}{8}$$</td>
   </tr>
   <tr>
     <td><strong>Number of refining iterations</strong></td>
@@ -285,6 +285,7 @@ The next subsection compares the remaining two refining formulas ($$-x^3 + \frac
     <td>2.5527e-04</td><td>4.7846e-08</td>
   </tr>
 </table>
+
 
 The cost is approximated assuming 1 cycle for each addition or multiplication, no parallelism, but assuming data re use (for $$x^3$$, $$x^6$$). The division by two of an integer is not considered as a full clock cycle, as it can be done by shifting the bits. The average relative error was computed using Matlab, for 10 000 logarithmically spaced numbers ranging from $$10^{-6}$$ to $$10^{6}$$.
 
