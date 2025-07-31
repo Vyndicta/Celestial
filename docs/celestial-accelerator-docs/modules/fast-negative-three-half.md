@@ -244,11 +244,28 @@ table, th, td {
 }
 </style>
 
-As an inversion would require an additional module, all the formulas that have an unknown in the denominator would not make a good choice. This automatically disqualifies the results in the three columns at the right. The three columns on the left are similar, but  $-x^3 + \frac{1}{y^2}$'s row requires less exponents and is therefore less computationally intensive. Therefore, it was concluded that $-x^3 + \frac{1}{y^2}$ yields the best results. The equation for d=3 has large exponents that would place too much constraint on the range and was therefore not investigated.
+As an inversion would require an additional module, all the formulas that have an unknown in the denominator would not make a good choice. This directly disqualifies the results in the three columns at the right. The three columns on the left are similar, but  $$-x^3 + \frac{1}{y^2}$$'s row requires less exponents and is therefore less computationally intensive. Therefore, it was concluded that $$-x^3 + \frac{1}{y^2}$$ yields the best results. The equation for d=3 has large exponents that would place too much constraint on the range and was therefore not investigated.
 
-The next subsection compares the remaining two refining formulas ($-x^3 + \frac{1}{y^2}$ for d = 1, 2) to determine the best choice.
+The next subsection compares the remaining two refining formulas ($$-x^3 + \frac{1}{y^2}$$ for d = 1, 2) and the fast inverse square root algorithm to determine the best choice.
 
 # Comparing the two methods
+
+
+| Method | \multicolumn{4}{c|}{Fast inverse square root initial estimate, cubed} | \multicolumn{6}{c|}{Fast negative three half exponent} |
+|--------|:--------------------------------------:|:---:|:---:|:---:|:--------------------------------------:|:---:|:---:|:---:|:---:|:---:|
+| Initial estimate | \multicolumn{4}{c|}{$0x5F34FF64 - (I_x \gg 1)$} | \multicolumn{6}{c|}{$0x5F2DA9A8 - ((3 \cdot I_x) \gg 1)$} |
+| Refinement | \multicolumn{4}{c|}{$\frac{y (3 - x y^2)}{2}$} | \multicolumn{4}{c|}{$\frac{y (3 - x^{3} y^{2})}{2}$} | \multicolumn{2}{c|}{$\frac{y \left(3 x^{6} y^{4} - 10 x^{3} y^{2} + 15\right)}{8}$} |
+| Number of refining iterations | 0 | 1 | 2 | 3 | 0 | 1 | 2 | 3 | 1 | 2 |
+| Cost (cycles) | 3 | 8 | 12 | 16 | 1 | 7 | 11 | 15 | 12 | 20 |
+| Average relative error | 0.0504 | 0.0018 | 4.1826e-06 | 3.6510e-08 | 0.0343 | 0.0026 | 2.1075e-05 | 3.7428e-08 | 2.5527e-04 | 4.7846e-08 |
+
+
+The cost is approximated assuming 1 cycle for each addition or multiplication, no parallelism, but assuming data re use (for $x^3, x^6$). The division by two of an integer is not considered as a full clock cycle, as it can be done by shifting the bits. The average relative error was computed using Matlab, for 10 000 logarithmically spaced numbers ranging from $$10^{-6}$ to $10^{6}$$.
+
+The table showcases that Householder's method with d=2 has a very poor cycle/precision ratio, which, in addition to its narrow range due to the use of $x^6$, makes it irrelevant. The true competition is between a cubed version of the fast inverse square root and the introduced fast negative three half exponent refined using the second order function. 
+
+As the simulated systems can show chaotic behaviours, a good precision is crucial to ensure the accuracy of the result. Based on this observation, an arbitrary threshold of 1e-6 relative error was chosen. This leaves two possibilities, 3 iterations of fast inverse square root, or 3 iterations of fast negative three half exponent.
+The second option requires 1 cycle less (around a 7% improvement), but a degradation of the relative precision of around 2.5 \%. As the cycle count improvement is two times larger than the degradation in precision, the fast negative three half exponent with 3 iterations of refinement using Householder's method with d=1 (equivalent to the Newton-Raphson method) was used for the velocity update flow.
 
 ## References
 
