@@ -81,7 +81,7 @@ I_y \approx \frac{3N}{2} (B - \sigma) - \frac{I_x}{2}
 $$
 
 
-The term $\frac{3N}{2} (B - \sigma)$, often referred to as the "magic number", can take different values depending on the value of $\sigma$ used. For $\sigma = 0.057304$, $\frac{3N}{2} (B - \sigma) = 1.5973087728 \times 10^9 = 0x5F34FF64$.
+The term $$\frac{3N}{2} (B - \sigma)$$, often referred to as the "magic number", can take different values depending on the value of $$\sigma$$ used. For $$\sigma = 0.057304$$, $$\frac{3N}{2} (B - \sigma) = 1.5973087728 \times 10^9 = 0x5F34FF64$$.
 
 Which yields:
 
