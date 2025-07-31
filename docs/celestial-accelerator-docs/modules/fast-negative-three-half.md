@@ -12,26 +12,39 @@ The fast inverse square root algorithm is a well-known method for approximating 
 ### Initial Estimate
 
 
-The algorithm is based on the following logarithmic relationships:
+
+Interpreting the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ as an integer thus results in: 
+$$ \label{fAsInt}
+	I_x = E_x \cdot N + M_x
+$$
+Where $$I_x$$ is the float interpreted as an integer, $E_x$ is the exponent of the floating point number, N is $$2^{23}$$ and $$M_x$$ is the mantissa. 
+
+When looking for the inverse square root \cite{fInvRoot}: \\
 
 $$
-\log_2(y) = -\frac{1}{2} \log_2(x)
-$$
-
-$$
-\log_2\left((1 + \frac{M_y}{N}) \cdot 2^{E_y - B}\right) = -\frac{1}{2} \log_2\left((1 + \frac{M_x}{N}) \cdot 2^{E_x - B}\right)
-$$
-
-$$
-\log_2(1 + \frac{M_y}{N}) + E_y - B = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x - B)
-$$
-
-$$
-\log_2(1 + \frac{M_y}{N}) + E_y = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x) + \frac{3B}{2}
+y=\frac{1}{\sqrt{x}}
 $$
 
 
-Using the first order Taylor approximation of $\log_2(1 + x) \approx x$. For $x$ in $[0, 1)$, the overall error can be reduced by adding a bias term (see [1]):
+
+$$
+\leftrightarrow \log_2(y) = -\frac{1}{2} \log_2(x)
+$$
+
+$$
+\leftrightarrow \log_2\left((1 + \frac{M_y}{N}) \cdot 2^{E_y - B}\right) = -\frac{1}{2} \log_2\left((1 + \frac{M_x}{N}) \cdot 2^{E_x - B}\right)
+$$
+
+$$
+\leftrightarrow \log_2(1 + \frac{M_y}{N}) + E_y - B = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x - B)
+$$
+
+$$
+\leftrightarrow \log_2(1 + \frac{M_y}{N}) + E_y = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x) + \frac{3B}{2}
+$$
+
+
+Using the first order Taylor approximation, $$\log_2(1 + x) \approx x$$. For $x$ in $[0, 1)$, the overall error can be reduced by adding a bias term (see [1]):
 
 $$
 \log_2(1 + x) \approx x + \sigma
