@@ -19,7 +19,7 @@ $$ \label{fAsInt}
 $$
 Where $$I_x$$ is the float interpreted as an integer, $E_x$ is the exponent of the floating point number, N is $$2^{23}$$ and $$M_x$$ is the mantissa. 
 
-When looking for the inverse square root : \\
+When looking for the inverse square root : 
 
 $$
 y=\frac{1}{\sqrt{x}}
@@ -133,19 +133,23 @@ Like the fast inverse square root, this method works by first computing a rough 
 ### Initial estimate
 
 The initial estimate process is based on the same assumptions as the fast inverse square root method. As mentionned previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$.
-For two positive IEE-754 floating point numbers,  $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ and  $$y=(1+ \frac{M_y}{N} ) \cdot 2^{E_y-B}$$ (see appendix for detail), following the equation:
+For two positive IEE-754 floating point numbers,  $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ and  $$y=(1+ \frac{M_y}{N} ) \cdot 2^{E_y-B}$$:
 $$
 	y=\frac{1}{x^{3/2}}
 $$
+
 $$
 	\leftrightarrow log_2 (y) = -\frac{3}{2} log_2(x)
 $$
+
 $$
 	\leftrightarrow log_2 ((1+ \frac{M_y}{N}) \cdot 2^{E_y-B}) = -\frac{3}{2} log_2((1+ \frac{M_x}{N}) \cdot 2^{E_x-B})
 $$
+
 $$
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y-B = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x-B)
 $$
+
 $$ 
     \label{logFastNegThreeHalf}
 	\leftrightarrow log_2 (1+  \frac{M_y}{N}) +  E_y = -\frac{3}{2} (log_2(1+ \frac{M_x}{N}) +E_x) + \frac{5B}{2} 
@@ -157,10 +161,11 @@ Injecting equation approximation of log2 with bias correction, $$log_2 (1+x) \si
 $$
 	\frac{M_y}{N} + \sigma +  E_y \simeq -\frac{3}{2} ( \frac{M_x}{N} + \sigma +E_x) + \frac{5B}{2} 
 $$
-As detailed in the appendix, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$. Placing  $$I_x$$ and $$I_y$$ in evidence:
+As detailed previously, the bit representation of a positive IEE-754 floating point number $$x=(1+ \frac{M_x}{N} ) \cdot 2^{E_x-B}$$ interpreted as an integer is equal to $$I_x = E_x \cdot N + M_x$$. Placing  $$I_x$$ and $$I_y$$ in evidence:
 $$
 	\leftrightarrow\t \frac{M_y}{N} +  E_y+ \sigma  \simeq -\frac{3}{2} ( \frac{M_x}{N} +E_x  + \sigma) + \frac{5B}{2} 
 $$
+
 $$
 	\leftrightarrow \underbrace{M_y +  E_y \cdot N}_{I_y} + \sigma \cdot N \simeq -\frac{3}{2} ( \underbrace{M_x +  E_x \cdot N}_{I_x}  + \sigma \cdot N ) +  \frac{5B}{2}  \cdot N
 $$
