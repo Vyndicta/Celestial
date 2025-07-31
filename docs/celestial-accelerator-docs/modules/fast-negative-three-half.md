@@ -7,7 +7,7 @@ This document first explains the well-known fast inverse square root algorithm, 
 
 ## The Fast Inverse Square Root Algorithm
 
-The fast inverse square root algorithm is a well-known method for approximating $$y = 1/sqrt(x)$$.
+The fast inverse square root algorithm is a well-known method for approximating $$y = 1/\sqrt(x)$$.
 
 ### Initial Estimate
 
@@ -52,10 +52,10 @@ $$
 
 To minimize the total error, `σ = 0.057304...`. This computation is detailed in [1].
 
-> **Note:** Adding a small offset to the first order Taylor approximation allows for a closer fit in the range `[0, 1)`. While the absolute value of the error is higher at the end than at the start with the offset, the overall error is lower with the offset.
+> **Note:** Adding a small offset to the first order Taylor approximation allows for a closer fit in the range $$[0, 1)$$. While the absolute value of the error is higher at the end than at the start with the offset, the overall error is lower with the offset.
 
 
-Injecting the approximation into the previous equation yields:
+$$M_y/N$$ is in the range $$[0, 1)$$. Thus, the approximation can be injected into the previous equation yields:
 
 $$
 \frac{M_y}{N} + \sigma + E_y \approx -\frac{1}{2} (\frac{M_x}{N} + \sigma + E_x) + \frac{3B}{2}
