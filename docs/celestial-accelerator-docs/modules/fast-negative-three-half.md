@@ -71,12 +71,12 @@ $$
 I_y \approx \frac{5N}{2}(B - \sigma) - \frac{3I_x}{2}
 $$
 
-The magic number for this calculation, $\frac{5N}{2}(B - \sigma)$, is `0x9EADA9A8`. The initial estimate is therefore:
+The magic number for this calculation, $$\frac{5N}{2}(B - \sigma)$$, is `0x9EADA9A8`. The initial estimate is therefore:
 `I_y = 0x9EADA9A8 - (3 * I_x) >> 1`
 
 ### Refining the Estimate
 
-To refine the estimate, we again use the Newton-Raphson method. The most suitable function for this problem is $f(y) = -x^3 + \frac{1}{y^2}$. This choice avoids costly division operations in the refinement step.
+To refine the estimate, we again use the Newton-Raphson method. The most suitable function for this problem is $$f(y) = -x^3 + \frac{1}{y^2}$$. This choice avoids costly division operations in the refinement step.
 
 The first-order (d=1, standard Newton-Raphson) refinement formula is:
 
