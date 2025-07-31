@@ -1,15 +1,15 @@
 
-# Fast Negative Three-Half Exponent
+# Fast negative three-half exponent
 
 As detailed in the body processing unit's documentation, the velocity update flow relies on computing $$x^{-3/2}$$. While it would be possible to implement the fast inverse square root algorithm (which computes $$x^{-1/2}$$) and then cube the result, a custom algorithm dedicated to $$x^{-3/2}$$ can yield better results, depending on the precision requirements.
 
 This document first explains the well-known fast inverse square root algorithm, details the custom fast negative three-half exponent algorithm, and then compares the two methods in terms of precision and clock cycles necessary.
 
-## The Fast Inverse Square Root Algorithm
+## The fast inverse square root algorithm
 
 The fast inverse square root algorithm is a well-known method for approximating $$y = 1/\sqrt(x)$$.
 
-### Initial Estimate
+### Initial estimate
 
 
 
@@ -97,7 +97,7 @@ Using this formula for the magic number yields the following result:
 
 ![Relative error of fast inverse square root](../assets/RelativeErrorFInvSqRoot.png)
 
-### Refining the Estimate
+### Refining the estimate
 
 As shown in the last section, while the estimate has an overall good fit (with a relative error of around 4% in the worst cases), it can still be improved. To do so, the Newton-Raphson method is traditionally used [2]. The idea is to create a function that takes the estimate as input and has roots only where the estimate has the correct value, then use the Newton-Raphson method to refine the estimate of the root's position.
 
@@ -122,7 +122,7 @@ The results using this formula for one and two iterations of the refinement are 
 
 ![Relative error after refining](../assets/RelativeErrorFInvSqRootAfterRefining.png)
 
-## The Fast Negative Three Half Algorithm
+## The fast negative three half algorithm
 
 
 The proposed method is inspired from the inverse square root method, described above. As far as the author's knowledge goes, it is the first time such a method was proposed. This is likely because $$x^{-3/2}$$ can also be found by first computing $$x^{-1/2}$$ using the fast inverse square root method, and then multiplying $$x^{-1/2}$$ with itself three times. A comparison of the fast negative three half algorithm exponent and the fast inverse square root algorithm followed by two multiplications to obtain a similar result is presented at the end of the section.
