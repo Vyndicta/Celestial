@@ -42,13 +42,13 @@ Since the adder/subtracter and multiplier modules can be used in parallel, the p
 The second task, the output selection according to the slct signal, can be done using a simple mux. The third task, however, requires more computation, as the normalised direction vector from one celestial body to another must be computed. It can be observed that the weight of the body who's velocity is updated can be simplified out of the equation, as shown in equation below:
 
 $$
-\vec{v}_{1,n+1} = \vec{v}_{1,n} +  dt \cdot \frac{m_1 \cdot m_2 \cdot G \cdot \frac{\vec{d}}{||\vec{d}||^2}}{m_1} =  \vec{v}_{1,n} +  dt \cdot m_2 \cdot G \cdot \frac{\vec{d}}{||\vec{d}||^2}
+\vec{v}_{1,n+1} = \vec{v}_{1,n} +  dt \cdot \frac{m_1 \cdot m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2}}{m_1} =  \vec{v}_{1,n} +  dt \cdot m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2}
 $$
 
  There are numerous ways to implement this. A simple implementation could use the fast
   inverse square root algorithm, detailed in appendix, and multiply the result with the non 
-  normalised direction vector to compute the normalised vector. To compute $$1/||d||^2$$, the 
-  output of the fast inverse square root, $$1/d$$, can be multiplied with itself to avoid 
+  normalised direction vector to compute the normalised vector. To compute $$1/\|\vec{d}\|^2$$, the 
+  output of the fast inverse square root, $$1/\|\vec{d}\|$$, can be multiplied with itself to avoid 
   adding an inverter module. To avoid redundant computations, the stored mass is pre scaled 
   with G. The resulting flow is shown in Figure 2:
 
@@ -63,11 +63,11 @@ This is not optimal, as the dependencies between the data lead to more computati
 This can be significantly improved by modifying the flow. It can be observed that the computation of the normalised direction vector can be skipped entirely by modifying further the velocity update equation, as detailed in equation below:
 
 $$
-\vec{v}_{1,n+1} = \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{||\vec{d}||^2} =  \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{||\vec{d}||^3}
+\vec{v}_{1,n+1} = \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2} =  \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^3}
 $$
  
  
- With $$\vec{d}$$ the non normalised direction vector. $$||\vec{d}||^3$$ is computed using a custom made algorithm, detailed in the fast negative three half exponent documentation. The flow then becomes:
+ With $$\vec{d}$$ the non normalised direction vector. $$\|\vec{d}\|^3$$ is computed using a custom made algorithm, detailed in the fast negative three half exponent documentation. The flow then becomes:
 
 <div style="text-align: center;">
     <img src="../assets/NonNaiveVelUpFlow.png" alt="An improved implementation of the velocity update" style="width: 70%;">
@@ -84,12 +84,12 @@ $$
     <em>Figure 4: How the different sub modules are used at each cycle of the velocity update</em>
 </div>
 
-The adder module also serves as subtracter module, depending on its input signal. During the cycles 0 to 2, the sub module is used to compute $$\vec{d}$$. From cycle 1 to 3, the multiplication module is used to multiply the components of $$\vec{d}$$ with themselves, to compute $$ (||\vec{d}||)^2 $$.
+The adder module also serves as subtracter module, depending on its input signal. During the cycles 0 to 2, the sub module is used to compute $$\vec{d}$$. From cycle 1 to 3, the multiplication module is used to multiply the components of $$\vec{d}$$ with themselves, to compute $$\|\vec{d}\|^2$$.
 
-From cycle 3 to 4, the adder module adds the outputs of the multiplication module, to finalise the computation of $$||\vec{d}||^2$$. Its output is forwarded at the same cycle to the fastNegExp module, which directly starts the computation of the initial estimate using the multiplication module. At the cycle 6, the adder adds the sizes of the two bodies, which is used later to detect collisions.
+From cycle 3 to 4, the adder module adds the outputs of the multiplication module, to finalise the computation of $$\|\vec{d}\|^2$$. Its output is forwarded at the same cycle to the fastNegExp module, which directly starts the computation of the initial estimate using the multiplication module. At the cycle 6, the adder adds the sizes of the two bodies, which is used later to detect collisions.
 
-At the cycle 8, the refinement module of the negative three half exponent method doesn't use the multiplication module, which is therefore used by the top module to compute $$\hat{m}_2*dt$$. The same goes for cycle 11, where the addition of the two body sizes is multiplied with itself. This is then compared with $$||\vec{d}||^2$$ by the top module, to detect potential collisions.
+At the cycle 8, the refinement module of the negative three half exponent method doesn't use the multiplication module, which is therefore used by the top module to compute $$\hat{m}_2*dt$$. The same goes for cycle 11, where the addition of the two body sizes is multiplied with itself. This is then compared with $$\|\vec{d}\|^2$$ by the top module, to detect potential collisions.
 
-While comparing $$||\vec{d}||$$ to the sum of the size of the two celestial bodies is more intuitive, the detection collision detection is done by comparing $$||\vec{d}||^2$$ to $$(s_1 + s_2)^2$$ instead, with $$s_1$$ and $$s_2$$ the size of the first and second body respectively. It is done this way because the actual distance ($$||\vec{d}||$$) is never computed, only its squared value.
+While comparing $$\|\vec{d}\|$$ to the sum of the size of the two celestial bodies is more intuitive, the detection collision detection is done by comparing $$\|\vec{d}\|^2$$ to $$(s_1 + s_2)^2$$ instead, with $$s_1$$ and $$s_2$$ the size of the first and second body respectively. It is done this way because the actual distance ($$\|\vec{d}\|$$) is never computed, only its squared value.
 
-At cycle 18, the multiplier module computes $$dt\cdot \frac{\hat{m}_2}{||\vec{d}||^3}$$. This value is then multiplied with each of the components of $$\vec{d}$$ at cycle 18 to 20, and the result is added to the current velocity from cycle 20 to 22.
+At cycle 18, the multiplier module computes $$dt\cdot \frac{\hat{m}_2}{\|\vec{d}\|^3}$$. This value is then multiplied with each of the components of $$\vec{d}$$ at cycle 18 to 20, and the result is added to the current velocity from cycle 20 to 22.
