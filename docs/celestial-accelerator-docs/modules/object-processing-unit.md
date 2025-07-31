@@ -84,7 +84,7 @@ $$
     <em>Figure 4: How the different sub modules are used at each cycle of the velocity update</em>
 </div>
 
-The adder module also serves as subtracter module, depending on its input signal. During the cycles 0 to 2, the sub module is used to compute $$\vec{d}$$. From cycle 1 to 3, the multiplication module is used to multiply the components of $$\vec{d}$$ with themselves, to compute $$||\vec{d}||^2$$.
+The adder module also serves as subtracter module, depending on its input signal. During the cycles 0 to 2, the sub module is used to compute $$\vec{d}$$. From cycle 1 to 3, the multiplication module is used to multiply the components of $$\vec{d}$$ with themselves, to compute $$ (||\vec{d}||)^2 $$.
 
 From cycle 3 to 4, the adder module adds the outputs of the multiplication module, to finalise the computation of $$||\vec{d}||^2$$. Its output is forwarded at the same cycle to the fastNegExp module, which directly starts the computation of the initial estimate using the multiplication module. At the cycle 6, the adder adds the sizes of the two bodies, which is used later to detect collisions.
 
