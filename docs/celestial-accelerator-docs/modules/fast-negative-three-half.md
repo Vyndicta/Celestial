@@ -1,13 +1,13 @@
 
 # Fast Negative Three-Half Exponent
 
-As detailed in the body processing unit's documentation, the velocity update flow relies on computing `x^{-3/2}`. While it would be possible to implement the fast inverse square root algorithm (which computes `x^{-1/2}`) and then cube the result, a custom algorithm dedicated to `x^{-3/2}` can yield better results, depending on the precision requirements.
+As detailed in the body processing unit's documentation, the velocity update flow relies on computing $$x^{-3/2}$$. While it would be possible to implement the fast inverse square root algorithm (which computes $$x^{-1/2}$$) and then cube the result, a custom algorithm dedicated to $$x^{-3/2}$$ can yield better results, depending on the precision requirements.
 
 This document first explains the well-known fast inverse square root algorithm, details the custom fast negative three-half exponent algorithm, and then compares the two methods in terms of precision and clock cycles necessary.
 
 ## The Fast Inverse Square Root Algorithm
 
-The fast inverse square root algorithm is a well-known method for approximating `y = 1/sqrt(x)`.
+The fast inverse square root algorithm is a well-known method for approximating $$y = 1/sqrt(x)$$.
 
 ### Initial Estimate
 
