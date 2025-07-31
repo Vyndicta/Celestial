@@ -17,12 +17,15 @@ The algorithm is based on the following logarithmic relationships:
 $$
 \log_2(y) = -\frac{1}{2} \log_2(x)
 $$
+
 $$
 \log_2\left((1 + \frac{M_y}{N}) \cdot 2^{E_y - B}\right) = -\frac{1}{2} \log_2\left((1 + \frac{M_x}{N}) \cdot 2^{E_x - B}\right)
 $$
+
 $$
 \log_2(1 + \frac{M_y}{N}) + E_y - B = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x - B)
 $$
+
 $$
 \log_2(1 + \frac{M_y}{N}) + E_y = -\frac{1}{2} (\log_2(1 + \frac{M_x}{N}) + E_x) + \frac{3B}{2}
 $$
@@ -51,12 +54,15 @@ Or, grouping terms:
 $$
 \frac{M_y}{N} + E_y + \sigma \approx -\frac{1}{2} (\frac{M_x}{N} + E_x + \sigma) + \frac{3B}{2}
 $$
+
 $$
 M_y + E_y N + N \sigma \approx -\frac{1}{2} (M_x + E_x N + N \sigma) + N \frac{3B}{2}
 $$
+
 $$
 I_y + N \sigma \approx -\frac{1}{2} (I_x + N \sigma) + N \frac{3B}{2}
 $$
+
 $$
 I_y \approx \frac{3N}{2} (B - \sigma) - \frac{I_x}{2}
 $$
@@ -84,9 +90,11 @@ This is traditionally done as follows:
 $$
 f(y) = \frac{1}{y^2} - x
 $$
+
 $$
 f'(y) = -\frac{2}{y^3}
 $$
+
 $$
 y_{n+1} = y_n - \frac{f(y_n)}{f'(y_n)} = y_n - \frac{\frac{1}{y_n^2} - x}{-\frac{2}{y_n^3}} = y_n + \frac{y_n}{2} - x y_n^3 = y_n \left(\frac{3}{2} - x y_n^2\right)
 $$
