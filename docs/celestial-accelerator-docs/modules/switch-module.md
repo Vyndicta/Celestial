@@ -136,15 +136,6 @@ io.collision_id := PriorityEncoder(BPUs_io.map(_.collided))
 io.collided := BPUs_io.map(_.collided).reduce(_ || _)
 ```
 
-## Efficiency Considerations
-
-The Switch Module's architecture enables several performance optimizations:
-
-1. **Parallel Processing**: All BPUs can update velocities simultaneously using broadcast data
-2. **Minimal Data Transfer**: Only necessary data is sent to each BPU
-3. **Synchronization**: Ensures all BPUs are in the correct mode for each simulation phase
-4. **Resource Sharing**: Enables efficient use of computational resources across all BPUs
-
 ## Implementation Details
 
 ### Input/Output Interfaces
