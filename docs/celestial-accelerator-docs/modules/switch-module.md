@@ -1,6 +1,26 @@
 # Switch Module
+<style>
+table {
+  border-collapse: collapse;
+  width: 70%;
+  margin-bottom: 1em;
+}
 
-The Switch Module (implemented as `BPE_crossbar` in the codebase) is a critical component of the Celestial Accelerator that orchestrates communication between the top module and all Body Processing Units (BPUs). It functions as a centralized routing hub that manages data flow between components during different phases of the n-body simulation.
+th, td {
+  border: 1px solid #ddd;
+  padding: 4px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #333;
+}
+
+th {
+  background-color: #444;
+}
+</style>
+The Switch Module handles the communication between the top module and all Body Processing Units (BPUs). It functions as a centralized routing hub that manages data flow between components during different phases of the n-body simulation.
 
 ## Purpose and Functionality
 
@@ -8,8 +28,7 @@ The primary purpose of the Switch Module is to:
 
 1. **Route simulation data** between components based on control signals
 2. **Coordinate computational phases** across multiple BPUs
-3. **Collect and forward status information** including collision detection
-4. **Enable efficient parallel processing** of celestial body interactions
+3. **Collect and forward status information** on collision detection
 
 ## Architecture
 

@@ -20,7 +20,7 @@ class CelestialTop(val BPE_num: Int) extends Module {
     }
     result
   }
-  val bp_cross = Module(new BPE_switch(BPE_num))
+  val bp_switch = Module(new BPE_switch(BPE_num))
 
 
   val command = io.dIn(63, 59) // 32 possible commands
@@ -101,7 +101,7 @@ class CelestialTop(val BPE_num: Int) extends Module {
       }
 
       // Handle collision detection
-      when (bp_cross.io.collided === true.B && stop_when_collision === true.B) {
+      when (bp_switch.io.collided === true.B && stop_when_collision === true.B) {
         // Stop the simulation if a collision is detected
         state := s_idle
       }
@@ -124,7 +124,7 @@ class CelestialTop(val BPE_num: Int) extends Module {
   def update_position(): Unit = {
     // printf(p"Updating position\n")
     // Update the position of the BPEs
-    bp_cross.io.m_slct := 1.U // 1 = update position
+    bp_switch.io.m_slct := 1.U // 1 = update position
     substate_cntr := substate_cntr + 1.U
     when (substate_cntr === 3.U) { // 4 cycles of wait, as takes one cycle to update
       substate_cntr := 0.U
@@ -144,8 +144,8 @@ class CelestialTop(val BPE_num: Int) extends Module {
 
   // Update the velocity of the BPEs
   def update_velocity(): Unit = {
-    bp_cross.io.m_slct := 0.U 
-    bp_cross.io.target := internal_counter
+    bp_switch.io.m_slct := 0.U 
+    bp_switch.io.target := internal_counter
     substate_cntr := substate_cntr + 1.U
     when (substate_cntr === 22.U) {
       substate_cntr := 0.U
@@ -185,15 +185,15 @@ class CelestialTop(val BPE_num: Int) extends Module {
         }
         is (9.U) { // Set target, forward data as position
           val truncated_data = data(log2Ceil(BPE_num), 0)
-          bp_cross.io.target := truncated_data
+          bp_switch.io.target := truncated_data
           forwardData()
-          bp_cross.io.m_slct := 2.U // 2 = set position
+          bp_switch.io.m_slct := 2.U // 2 = set position
         }
         is (10.U) { // Set target, forward data as velocity
           val truncated_data = data(log2Ceil(BPE_num), 0)
-          bp_cross.io.target := truncated_data
+          bp_switch.io.target := truncated_data
           forwardData()
-          bp_cross.io.m_slct := 3.U // 3 = set velocity
+          bp_switch.io.m_slct := 3.U // 3 = set velocity
         }
         is (11.U) { // Set tstop_when_collision
           stop_when_collision := data(0) // 1 = stop when collision
@@ -220,55 +220,55 @@ class CelestialTop(val BPE_num: Int) extends Module {
           target := data(log2Ceil(BPE_num), 0)        
         }
         is (18.U) { // Output the target BPE's X position
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 6.U // 6 = output position
-          val X_out = bp_cross.io.X_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 6.U // 6 = output position
+          val X_out = bp_switch.io.X_out
           val bit_flip_mask = data // Used to encrypt the data
           val X_out_encrypted = X_out ^ bit_flip_mask
           io.dOut := X_out_encrypted
         }
         is (19.U) { // Output the target BPE's Y position
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 6.U // 6 = output position
-          val Y_out = bp_cross.io.Y_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 6.U // 6 = output position
+          val Y_out = bp_switch.io.Y_out
           val bit_flip_mask = data // Used to encrypt the data
           val Y_out_encrypted = Y_out ^ bit_flip_mask
           io.dOut := Y_out_encrypted
         }
         is (20.U) { // Output the target BPE's Z position
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 6.U // 6 = output velocity
-          val Z_out = bp_cross.io.Z_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 6.U // 6 = output velocity
+          val Z_out = bp_switch.io.Z_out
           val bit_flip_mask = data // Used to encrypt the data
           val Z_out_encrypted = Z_out ^ bit_flip_mask
           io.dOut := Z_out_encrypted
         }
         is (21.U) { // Output the target BPE's dX
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 4.U // 4 = output velocity
-          val X_out = bp_cross.io.X_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 4.U // 4 = output velocity
+          val X_out = bp_switch.io.X_out
           val bit_flip_mask = data // Used to encrypt the data
           val X_out_encrypted = X_out ^ bit_flip_mask
           io.dOut := X_out_encrypted
         }
         is (22.U) { // Output the target BPE's dY
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 4.U // 4 = output velocity
-          val Y_out = bp_cross.io.Y_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 4.U // 4 = output velocity
+          val Y_out = bp_switch.io.Y_out
           val bit_flip_mask = data // Used to encrypt the data
           val Y_out_encrypted = Y_out ^ bit_flip_mask
           io.dOut := Y_out_encrypted
         }
         is (23.U) { // Output the target BPE's dZ
-          bp_cross.io.target := target
-          bp_cross.io.m_slct := 4.U // 4 = output velocity
-          val Z_out = bp_cross.io.Z_out
+          bp_switch.io.target := target
+          bp_switch.io.m_slct := 4.U // 4 = output velocity
+          val Z_out = bp_switch.io.Z_out
           val bit_flip_mask = data // Used to encrypt the data
           val Z_out_encrypted = Z_out ^ bit_flip_mask
           io.dOut := Z_out_encrypted
         }
         is (24.U) { // Output the ID of the BPE that collided
-          val collision_id = bp_cross.io.collision_id
+          val collision_id = bp_switch.io.collision_id
           val bit_flip_mask = data // Used to encrypt the data
           val extended_collision_id = Cat(0.U((32-log2Ceil(BPE_num)).W), collision_id) // Extend to 64 bits
           io.dOut := extended_collision_id ^ bit_flip_mask
@@ -301,30 +301,30 @@ class CelestialTop(val BPE_num: Int) extends Module {
 
 
   def defaultValues(): Unit = {
-    bp_cross.io.X_in := 0.U
-    bp_cross.io.Y_in := 0.U
-    bp_cross.io.Z_in := 0.U
-    bp_cross.io.size_in := 0.U
-    bp_cross.io.m_in := 0.U
-    bp_cross.io.dt := dt
-    bp_cross.io.m_slct := 7.U // 7 = idle
-    bp_cross.io.target := 0.U
+    bp_switch.io.X_in := 0.U
+    bp_switch.io.Y_in := 0.U
+    bp_switch.io.Z_in := 0.U
+    bp_switch.io.size_in := 0.U
+    bp_switch.io.m_in := 0.U
+    bp_switch.io.dt := dt
+    bp_switch.io.m_slct := 7.U // 7 = idle
+    bp_switch.io.target := 0.U
     // Output NaN
     val NaN = 0x7FC00000.U
     io.dOut := NaN
   }
 
   def forwardData(): Unit = {
-    bp_cross.io.X_in := X
-    bp_cross.io.Y_in := Y
-    bp_cross.io.Z_in := Z
-    bp_cross.io.size_in := size
-    bp_cross.io.m_in := m
-    bp_cross.io.dt := dt
+    bp_switch.io.X_in := X
+    bp_switch.io.Y_in := Y
+    bp_switch.io.Z_in := Z
+    bp_switch.io.size_in := size
+    bp_switch.io.m_in := m
+    bp_switch.io.dt := dt
   }
 
   def emptyData(): Unit = {
-    bp_cross.io.m_slct := 5.U // 5 = reset all BPUs
+    bp_switch.io.m_slct := 5.U // 5 = reset all BPUs
     // Also remove all data inside of this module
     dt := 0.U
     m := 0.U
@@ -333,12 +333,12 @@ class CelestialTop(val BPE_num: Int) extends Module {
     Y := 0.U
     Z := 0.U
     numberActiveBPE := 0.U
-    bp_cross.io.X_in := 0.U
-    bp_cross.io.Y_in := 0.U
-    bp_cross.io.Z_in := 0.U
-    bp_cross.io.size_in := 0.U
-    bp_cross.io.m_in := 0.U
-    bp_cross.io.dt := 0.U
+    bp_switch.io.X_in := 0.U
+    bp_switch.io.Y_in := 0.U
+    bp_switch.io.Z_in := 0.U
+    bp_switch.io.size_in := 0.U
+    bp_switch.io.m_in := 0.U
+    bp_switch.io.dt := 0.U
     state := s_idle
     internal_counter := 0.U
     substate_cntr := 0.U

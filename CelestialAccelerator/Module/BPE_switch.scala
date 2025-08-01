@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.util._
 import chisel3.experimental._
 
-class BPE_crossbar(val bpe_nbr: Int) extends Module {
+class BPE_switch(val bpe_nbr: Int) extends Module {
   val io = IO(new Bundle {
     // Target has to be log2(bpe) bits
     val target = Input(UInt(log2Ceil(bpe_nbr).W))
