@@ -32,8 +32,8 @@ z_{n+1} = z_t + dt \cdot v_{z,n}
 \end{cases}
 $$
 
-<div style="float: right; width: 27.5%;">
-    <img src="../assets/DetailedViewBPU.png" alt="The sub modules inside the body processing unit" style="width: 100%;">
+<div class="image-container right">
+    <img src="../assets/DetailedViewBPU.png" alt="The sub modules inside the body processing unit">
     <em>Figure 1: The sub modules inside the body processing unit</em>
 </div>
 
@@ -52,8 +52,8 @@ $$
   adding an inverter module. To avoid redundant computations, the stored mass is pre scaled 
   with G. The resulting flow is shown in Figure 2:
 
-<div style="text-align: center;">
-    <img src="../assets/NaiveVeloUpFlow.png" alt="A relatively naive implementation of the velocity update" style="width: 70%;">
+<div class="image-container center">
+    <img src="../assets/NaiveVeloUpFlow.png" alt="A relatively naive implementation of the velocity update">
     <br>
     <em>Figure 2: A relatively naive implementation of the velocity update. It assumes that the stored mass is already pre scaled with the gravitational constant, G, to save a cycle. Additionally, it is assume that the fast inverse square root algorithm uses 3 refining cycles.</em>
 </div>
@@ -69,8 +69,8 @@ $$
  
  With $$\vec{d}$$ the non normalised direction vector. $$\|\vec{d}\|^3$$ is computed using a custom made algorithm, detailed in the fast negative three half exponent documentation. The flow then becomes:
 
-<div style="text-align: center;">
-    <img src="../assets/NonNaiveVelUpFlow.png" alt="An improved implementation of the velocity update" style="width: 70%;">
+<div class="image-container center">
+    <img src="../assets/NonNaiveVelUpFlow.png" alt="An improved implementation of the velocity update">
     <br>
     <em>Figure 3: An improved implementation of the velocity update. This assumes 3 refinement cycles for the fast neg three half algorithm.</em>
 </div>
@@ -78,8 +78,8 @@ $$
  
  The critical path, in red, now takes 26 cycles. The total number of cycles is brought down from 32 to 27. Some of the computation can be made in parallel to use the two arithmetic modules at once, which allows the whole update process to take only 23 cycles, including the collision detection and addition of the result to the current velocity, which are not shown on the figure above for simplicity. The repartition of each of the different unit at each cycle is detailed in the table below:
 
-<div style="text-align: center;">
-    <img src="../assets/FlowModUtilTable.png" alt="How the different sub modules are used at each cycle of the velocity update" style="width: 95%;">
+<div class="image-container center">
+    <img src="../assets/FlowModUtilTable.png" alt="How the different sub modules are used at each cycle of the velocity update">
     <br>
     <em>Figure 4: How the different sub modules are used at each cycle of the velocity update</em>
 </div>
