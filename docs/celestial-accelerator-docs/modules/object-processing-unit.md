@@ -42,7 +42,7 @@ Since the adder/subtracter and multiplier modules can be used in parallel, the p
 The second task, the output selection according to the slct signal, can be done using a simple mux. The third task, however, requires more computation, as the normalised direction vector from one celestial body to another must be computed. It can be observed that the weight of the body who's velocity is updated can be simplified out of the equation, as shown in equation below:
 
 $$
-\vec{v}_{1,n+1} = \vec{v}_{1,n} +  dt \cdot \frac{m_1 \cdot m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2}}{m_1} =  \vec{v}_{1,n} +  dt \cdot m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2}
+\vec{v}_{1,n+1} = \vec{v}_{1,n} +  dt \cdot \frac{m_1 \cdot m_2 \cdot G \cdot \frac{\vec{1}_d}{\|\vec{d}\|^2}}{m_1} =  \vec{v}_{1,n} +  dt \cdot m_2 \cdot G \cdot \frac{\vec{1}_d}{\|\vec{d}\|^2}
 $$
 
  There are numerous ways to implement this. A simple implementation could use the fast
@@ -63,7 +63,7 @@ This is not optimal, as the dependencies between the data lead to more computati
 This can be significantly improved by modifying the flow. It can be observed that the computation of the normalised direction vector can be skipped entirely by modifying further the velocity update equation, as detailed in equation below:
 
 $$
-\vec{v}_{1,n+1} = \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^2} =  \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^3}
+\vec{v}_{1,n+1} = \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{1}_d}{\|\vec{d}\|^2} =  \vec{v}_{1,n} + m_2 \cdot G \cdot \frac{\vec{d}}{\|\vec{d}\|^3}
 $$
  
  
