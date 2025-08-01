@@ -16,23 +16,37 @@ The primary purpose of the Switch Module is to:
 The Switch Module connects to each BPU through a standardized interface and manages data transfers using a target selection mechanism. It instantiates and coordinates multiple BPUs, creating a scalable architecture that can handle a variable number of celestial bodies.
 
 ```
-                   ┌───────────────────┐
-                   │                   │
-                   │    Top Module     │
-                   │                   │
-                   └─────────┬─────────┘
-                             │
-                             │ Control Signals,
-                             │ Input Data
-                             ▼
-┌──────────────────────────────────────────────┐
-│                                              │
-│               Switch Module                  │
-│     (Routing, Broadcasting, Selection)       │
-│                                              │
-└───┬───────────┬───────────┬───────────┬──────┘
-    │           │           │           │
-    ▼           ▼           ▼           ▼
+                 ┌───────────────────┐
+                 │                   │
+                 │   Rocket Core     │
+                 │                   │
+                 └─────────┬─────────┘
+                           ↑
+                           ↓
+                 ┌───────────────────┐
+                 │                   │
+                 │   TileLink MMIO   │
+                 │   Interface       │
+                 └─────────┬─────────┘
+                           ↑
+                           ↓ Command Packets
+                 ┌───────────────────┐
+                 │                   │
+                 │    Top Module     │
+                 │                   │
+                 └─────────┬─────────┘
+                           ↑
+                           │ Control Signals,
+                           │ Input Data
+                           ↓
+┌────────────────────────────────────────────────┐
+│                                                │
+│               Switch Module                    │
+│     (Routing, Broadcasting, Selection)         │
+│                                                │
+└───┬───────────┬───────────┬───────────┬────────┘
+    ↑           ↑           ↑           ↑
+    ↓           ↓           ↓           ↓
 ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
 │         │ │         │ │         │ │         │
 │  BPU 0  │ │  BPU 1  │ │  BPU 2  │ │  BPU n  │
@@ -51,8 +65,10 @@ The Switch Module connects to each BPU through a standardized interface and mana
 
 The Switch Module operates in several distinct modes controlled by a 3-bit selection signal (`m_slct`). Each mode configures a specific pattern of data flow between components:
 
-| CMD (DEC) | CMD (BIN) | Name | Description |
-|-----------|-----------|------|-------------|
+<div class="table-wrapper" markdown="block">
+
+| **CMD (DEC)** | **CMD (BIN)** | **Name** | **Description** |
+|:-------------:|:-------------:|:---------|:----------------|
 | 0 | 000 | Velocity update | Broadcasts the position and mass of the target BPU to all other BPUs, setting them to velocity update mode. The target BPU's data is used as the source for the broadcast. |
 | 1 | 001 | Update position | Sets all BPUs to position update mode and forwards the time step value to all units for synchronized position calculations. |
 | 2 | 010 | Set position | Forwards the X, Y, Z, mass and size registers from the top module to the targeted BPU, setting it to coordinate setup mode while all other BPUs remain idle. |
@@ -61,6 +77,8 @@ The Switch Module operates in several distinct modes controlled by a 3-bit selec
 | 5 | 101 | Reset all | Commands all BPUs to reset their internal registers, clearing all stored data. |
 | 6 | 110 | Output position | Forwards the position components (X, Y, Z) from the targeted BPU to the top module. All other BPUs remain in idle state. |
 | 7 | 111 | Idle | No data transfer occurs; all units remain in their current state. |
+
+</div>
 
 ## Implementation Details
 
@@ -107,4 +125,41 @@ The Switch Module's architecture enables several performance optimizations:
 2. **Minimal Data Transfer**: Only necessary data is sent to each BPU
 3. **Synchronization**: Ensures all BPUs are in the correct mode for each simulation phase
 4. **Resource Sharing**: Enables efficient use of computational resources across all BPUs
+
+## Implementation Details
+
+### Input/Output Interfaces
+
+The Switch Module exposes the following interfaces:
+
+- **Target Selection**: A register storing the ID of the currently targeted BPU
+- **Data Inputs**: X, Y, Z coordinates, mass, and size values from the top module
+- **Control Inputs**: Mode selection and time step values
+- **Data Outputs**: X, Y, Z values from the selected BPU for reading back
+- **Status Outputs**: Collision detection signals and collision ID information
+
+### Broadcast Mechanism
+
+During velocity updates (mode 0), the switch module implements an efficient broadcast mechanism:
+
+1. When a BPU is selected as the target, its position and mass data are read into broadcast wires
+2. All other BPUs receive this broadcast data for their velocity calculations
+3. This allows each BPU to compute gravitational interactions with all other bodies
+
+This broadcasting approach enables efficient n-body simulations by ensuring each body has access to the position data of every other body, while minimizing data transfer overhead.
+
+### Collision Detection
+
+The Switch Module coordinates collision detection across all BPUs:
+
+- Each BPU reports collisions through a dedicated signal
+- The module uses a priority encoder to identify which BPU detected a collision
+- Collision information (occurrence and ID) is then reported back to the top module
+
+The collision detection is implemented with a priority encoder that identifies the first BPU reporting a collision, and a reduction function that combines all collision signals to indicate whether any collision has occurred:
+
+```scala
+io.collision_id := PriorityEncoder(BPUs_io.map(_.collided))
+io.collided := BPUs_io.map(_.collided).reduce(_ || _)
+```
 
