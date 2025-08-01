@@ -1,4 +1,4 @@
-# Future Work
+# Future work
 
 While the Celestial Accelerator successfully meets its primary objectives of providing significant speedup for n-body simulations, there are several potential areas for further improvement and enhancement in future iterations.
 
