@@ -19,7 +19,7 @@ This is the first step to using the accelerator. It ensures that another user ca
 
 void sendPacket(uint32_t data, uint8_t cmd, uint32_t lock)
 {
-    // Mask lock to ensure it's only 27 bits
+    // Mask packet to ensure it's only 27 bits
     lock = lock & 0x07FFFFFF;
     uint64_t packet = ((uint64_t)cmd << 59) | ((uint64_t)lock << 32) | data;
     reg_write64(CELESTIAL_DIN, packet);
@@ -75,7 +75,7 @@ To send a planet's position:
 
 void sendPacket(uint32_t data, uint8_t cmd, uint32_t lock)
 {
-// Mask lock to ensure it's only 27 bits
+// Mask packet to ensure it's only 27 bits
 lock = lock & 0x07FFFFFF;
 uint64_t packet = ((uint64_t)cmd << 59) | ((uint64_t)lock << 32) | data;
 reg_write64(CELESTIAL_DIN, packet);
@@ -183,7 +183,7 @@ And to run the simulation:
 
 void sendPacket(uint32_t data, uint8_t cmd, uint32_t lock)
 {
-	// Mask lock to ensure it's only 27 bits
+	// Mask packet to ensure it's only 27 bits
 	lock = lock & 0x07FFFFFF;
 	uint64_t packet = ((uint64_t)cmd << 59) | ((uint64_t)lock << 32) | data;
 	reg_write64(CELESTIAL_DIN, packet);
