@@ -2,32 +2,32 @@
 
 While the Celestial Accelerator successfully meets its primary objectives of providing significant speedup for n-body simulations, there are several potential areas for further improvement and enhancement in future iterations.
 
-## Precision and Range Improvements
+## Precision and range improvements
 
-### Double Precision Support
+### Double precision support
 Currently, the accelerator uses single-precision floating-point (32-bit) calculations. This forces the use of a pre-scaling multiplication for a solar system simulation, to ensure the computation of 1/d^3 doesn't go over what a float can do. Implementing double-precision (64-bit) floating-point operations would:
 - Increase the numerical range of simulations, removing the need for such a scaler
 - Improve calculation precision for sensitive simulations
 - Allow for more accurate long-running simulations where precision errors can accumulate
 
-### Custom Floating-Point Format
+### Custom floating-point format
 The requirements for celestial simulations are unique due to the vast distances between celestial objects. A specialized floating-point format could be developed with:
 - Modified exponent bias tailored to astronomical scales
 - Optimized bit allocation between mantissa and exponent
 - Potentially faster calculations due to hardware-specific optimizations
 But it would make the communication with the C code more cumbersome. 
 
-## Security Enhancements
+## Security enhancements
 
 Building upon the existing [security measures](security/security-risks.md), several improvements could be implemented:
 
-- **Advanced Brute Force Protection**: The current 27-bit key could be vulnerable to brute force attacks during long-running simulations. A potential solution would be to clear all sensitive data and output a warning when a certain number of invalid commands are detected.
-- **Dynamic Key Management**: Implementing key rotation or more sophisticated authentication mechanisms.
-- **Intrusion Detection**: More sophisticated detection of potential attacks with appropriate responses.
+- **Advanced brute force protection**: The current 27-bit key could be vulnerable to brute force attacks during long-running simulations. A potential solution would be to clear all sensitive data and output a warning when a certain number of invalid commands are detected.
+- **Dynamic key management**: Implementing key rotation or more sophisticated authentication mechanisms.
+- **Intrusion detection**: More sophisticated detection of potential attacks with appropriate responses.
 
-## Performance Optimizations
+## Performance optimizations
 
-### Concurrent Simulation Support
+### Concurrent simulation support
 Adding support for multiple concurrent simulations would be beneficial when:
 - A simulation uses only a subset of the available Body Processing Units (BPUs)
 - Different users need to run independent simulations with smaller body counts
@@ -37,17 +37,17 @@ Adding support for multiple concurrent simulations would be beneficial when:
 
 Add some multiplexing mechanism to support simulations where the number of bodies is greater than the number of available Body Processing Units (BPU).
 
-### Broadcasting Optimization
+### Broadcasting optimization
 Currently, when a BPU broadcasts its position to other units during the velocity update phase, it remains idle. Modifying this procedure could:
 - Save approximately 23 cycles per simulation step
 - Nearly double the throuput for the worst case scenario, 2 bodies
 
 ## Hardware implementation
 
-### Neg Three Half refinement optimization
+### Neg three half refinement optimization
 The effective frequency is heavily bottlenecked by the negative three half exponent's refinement module. Some troubleshooting should be able to fix this issue, by dividing one of the steps in two.
 
-### FPGA-Specific Optimizations
+### FPGA-specific optimizations
 Leveraging specific FPGA features could further enhance performance:
 - DSP block utilization for critical mathematical operations
 - Memory architecture optimizations

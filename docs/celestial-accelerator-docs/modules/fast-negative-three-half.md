@@ -17,7 +17,8 @@ Interpreting the bit representation of a positive IEE-754 floating point number 
 $$ \label{fAsInt}
 	I_x = E_x \cdot N + M_x
 $$
-Where $$I_x$$ is the float interpreted as an integer, $E_x$ is the exponent of the floating point number, N is $$2^{23}$$ and $$M_x$$ is the mantissa. 
+
+Where $$I_x$$ is the float interpreted as an integer, $$E_x$$ is the exponent of the floating point number, N is $$2^{23}$$ and $$M_x$$ is the mantissa. 
 
 When looking for the inverse square root : 
 
@@ -56,11 +57,11 @@ To minimize the total error, `σ = 0.057304...`. This computation is detailed in
 <div style="display: flex; gap: 16px; align-items: flex-start;">
     <div style="flex: 1; text-align: center;">
         <img src="../assets/ComparingSigma.png" alt="Error with sigma" style="max-width: 100%;"><br>
-        <em>Figure 1: Estimation with and without $$\sigma$ $</em>
+        <em>Figure 1: Estimation with and without σ </em>
     </div>
     <div style="flex: 1; text-align: center;">
         <img src="../assets/ComparingSigma2.png" alt="Error with sigma" style="max-width: 100%;"><br>
-        <em>Figure 2: Error with and without $$\sigma$$</em>
+        <em>Figure 2: Error with and without σ </em>
     </div>
 </div>
 
