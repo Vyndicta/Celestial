@@ -21,7 +21,6 @@ Each object processing unit contains four main sub-modules:
 - A fast negative three half exponent, which is necessary to update the velocity of the object.
 
 
-
  The first task, the position update, is straightforward, requiring only 3 multiplication and additions:
 
 $$
