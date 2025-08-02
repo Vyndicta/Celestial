@@ -43,8 +43,8 @@ In terms of LUT utilization:
 ### Analysis
 
 - The introduction of the accelerator leads to a higher increase in LUT utilization than expected. This is because the ^-3/2 module seems to have one slow step, which forces heavy optimization during the PnR flow. This leads to extremely high utilization, which could probably be greatly reduced with some investigation.
-- The maximum operating frequency is reduced by a factor of approximately 4.4x (from 75.0 MHz to 16.7 MHz). The critical path is in the buffer register of the fast negative three-half algorithm ($x^{-3/2}$). Once again, some investigation would likely be able to increase drastically this frequency.
-- Despite this frequency reduction, the accelerator provides a **626% speed-up** for a 2-body simulation at iso frequency. This significant performance gain compensates for the lower clock speed, meaning that the accelerator outperforms a pure software implementation, even in this worst-case scenario (2 bodies).
+- The maximum operating frequency is reduced by a factor of approximately 4.4x (from 75.0 MHz to 16.7 MHz). The critical path is in the buffer register of the fast negative three-half algorithm ($$x^{-3/2}$$). Once again, some investigation would likely be able to increase drastically this frequency.
+- While there is a frequency reduction, the accelerator provides a 626% speed-up for a 2-body simulation (the worst case scenario) at iso frequency. This significant performance gain compensates for the lower clock speed, meaning that the accelerator outperforms a pure software implementation, even taking the slower frequency into account.
 
 ## Sub-module Utilization
 
@@ -70,8 +70,8 @@ The LUT utilization for the primary sub-modules within the BPU is detailed below
 The FPGA implementation successfully demonstrates that the Celestial accelerator provides a substantial performance improvement over a software-only approach, even with a notable decrease in clock frequency.
 
 Key areas for future optimization include:
-1.  **Pipelining the $x^{-3/2}$ module:** Further pipelining the `NegThreeHalfExpRefine` stage could significantly improve the maximum operating frequency.
-2.  **Optimizing BPU activity:** During the velocity update phase, the BPU broadcasting its position is idle. Eliminating this idle state by broadcasting and computing at once could nearly double the performance in the worst case scenarios.
+1.  Pipelining the $$x^{-3/2}$$ module: Further pipelining the `NegThreeHalfExpRefine` stage could significantly improve the maximum operating frequency.
+2.  Optimizing BPU activity: During the velocity update phase, the BPU broadcasting its position is idle. Eliminating this idle state by broadcasting and computing at once could nearly double the performance in the worst case scenarios.
 
 # To implement a chipyard design on an FPGA:
 # Requirments
