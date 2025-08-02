@@ -15,6 +15,7 @@ The requirements for celestial simulations are unique due to the vast distances 
 - Modified exponent bias tailored to astronomical scales
 - Optimized bit allocation between mantissa and exponent
 - Potentially faster calculations due to hardware-specific optimizations
+
 But it would make the communication with the C code more cumbersome. 
 
 ## Security enhancements
