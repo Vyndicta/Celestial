@@ -61,19 +61,19 @@ The Switch Module operates in several distinct modes controlled by a 3-bit selec
 
 </div>
 
-## Implementation Details
+## Implementation details
 
-### Input/Output Interfaces
+### Input/output interfaces
 
 The Switch Module exposes the following interfaces:
 
-- **Target Selection**: A register storing the ID of the currently targeted BPU
-- **Data Inputs**: X, Y, Z coordinates, mass, and size values from the top module
-- **Control Inputs**: Mode selection and time step values
-- **Data Outputs**: X, Y, Z values from the selected BPU for reading back
-- **Status Outputs**: Collision detection signals and collision ID information
+- **Target selection**: A register storing the ID of the currently targeted BPU
+- **Data inputs**: X, Y, Z coordinates, mass, and size values from the top module
+- **Control inputs**: Mode selection and time step values
+- **Data outputs**: X, Y, Z values from the selected BPU for reading back
+- **Status outputs**: Collision detection signals and collision ID information
 
-### Broadcast Mechanism
+### Broadcast mechanism
 
 During velocity updates (mode 0), the switch module implements an efficient broadcast mechanism:
 
@@ -83,7 +83,7 @@ During velocity updates (mode 0), the switch module implements an efficient broa
 
 This broadcasting approach enables efficient n-body simulations by ensuring each body has access to the position data of every other body, while minimizing data transfer overhead.
 
-### Collision Detection
+### Collision detection
 
 The Switch Module coordinates collision detection across all BPUs:
 
@@ -98,19 +98,19 @@ io.collision_id := PriorityEncoder(BPUs_io.map(_.collided))
 io.collided := BPUs_io.map(_.collided).reduce(_ || _)
 ```
 
-## Implementation Details
+## Implementation details
 
-### Input/Output Interfaces
+### Input/output interfaces
 
 The Switch Module exposes the following interfaces:
 
-- **Target Selection**: A register storing the ID of the currently targeted BPU
-- **Data Inputs**: X, Y, Z coordinates, mass, and size values from the top module
-- **Control Inputs**: Mode selection and time step values
-- **Data Outputs**: X, Y, Z values from the selected BPU for reading back
-- **Status Outputs**: Collision detection signals and collision ID information
+- **Target selection**: A register storing the ID of the currently targeted BPU
+- **Data inputs**: X, Y, Z coordinates, mass, and size values from the top module
+- **Control inputs**: Mode selection and time step values
+- **Data outputs**: X, Y, Z values from the selected BPU for reading back
+- **Status outputs**: Collision detection signals and collision ID information
 
-### Broadcast Mechanism
+### Broadcast mechanism
 
 During velocity updates (mode 0), the switch module implements an efficient broadcast mechanism:
 
@@ -120,7 +120,7 @@ During velocity updates (mode 0), the switch module implements an efficient broa
 
 This broadcasting approach enables efficient n-body simulations by ensuring each body has access to the position data of every other body, while minimizing data transfer overhead.
 
-### Collision Detection
+### Collision detection
 
 The Switch Module coordinates collision detection across all BPUs:
 
