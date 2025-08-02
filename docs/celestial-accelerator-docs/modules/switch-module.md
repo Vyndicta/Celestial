@@ -42,7 +42,7 @@ The Switch Module connects to each BPU through a standardized interface and mana
 - **Mode selection logic**: Determines the current operation mode for each BPU
 - **Collision detection system**: Priority encoder to identify and report collisions
 
-## Operation Modes
+## Operation modes
 
 The Switch Module operates in several distinct modes controlled by a 3-bit selection signal (`m_slct`). Each mode configures a specific pattern of data flow between components:
 
