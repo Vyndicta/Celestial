@@ -1,4 +1,4 @@
-# Performance Analysis of the Celestial Accelerator
+# Performance analysis of the celestial accelerator
 
 As the speed increase changes with the number of bodies simulated, different scenarios with 2, 4, 6
 and 8 bodies were used to provide a good overview. A C code running a simulation corresponding

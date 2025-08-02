@@ -1,10 +1,10 @@
-# Security Risks
+# Security risks
 
 This document outlines the security considerations for the Celestial Accelerator, including a threat model and implemented security features.
 
-## Threat Model
+## Threat model
 
-### Scope and Assets
+### Scope and assets
 
 The key assets protected by the Celestial Accelerator security model include:
 
@@ -15,7 +15,7 @@ The key assets protected by the Celestial Accelerator security model include:
 
 The scope of this threat model is limited to attacks originating from other software running on the same SoC. Other threats, such as reading the bus to steal data, would require advanced cryptographic modules as countermeasures, which is outside the scope of this project.
 
-### Trust Boundaries
+### Trust boundaries
 
 Trust is explicitly placed in the software component that successfully locks the accelerator. The following boundaries are identified:
 
@@ -29,7 +29,7 @@ The root of trust for this system is assumed to be:
 
 Any compromise of the root of trust would invalidate all other protections.
 
-### Threat Actors and Attack Surfaces
+### Threat actors and attack surfaces
 
 This model considers software-only attackers without physical access. The primary threat actors considered are:
 
@@ -44,7 +44,7 @@ Key attack surfaces include:
 - Inactivity timeout behavior
 - Locking mechanism and key management
 
-### Attack Surface Analysis
+### Attack surface analysis
 
 The most critical vulnerabilities identified are:
 
@@ -53,7 +53,7 @@ The most critical vulnerabilities identified are:
 - **Denial of service**: An attacker could continuously send invalid commands, preventing useful access
 - **Brute force attack**: The 27-bit long lock key could be brute-forced, especially if the accelerator is kept locked during a long acceleration
 
-### Threat Enumeration (STRIDE Model)
+### Threat enumeration (STRIDE Model)
 
 Based on the STRIDE model:
 
@@ -64,25 +64,25 @@ Based on the STRIDE model:
 - **Denial of Service**: Spamming invalid commands could prevent legitimate ones from being received, or a malicious software could lock the accelerator and keep it locked with minimal activity
 - **Elevation of privilege**: If a lower-privilege process accesses MMIO without proper enforcement, it might impact simulation results, which could affect how higher-privileged software behaves
 
-## Security Features
+## Security features
 
 The Celestial Accelerator incorporates the following security features to mitigate the identified threats:
 
-### Locking Mechanism
+### Locking mechanism
 
 To start using the accelerator, a program must first send a 27-bit lock value. All subsequent commands require the same lock value to be valid, ensuring that another program can't use the accelerator while the first one is still using it.
 
 To prevent permanent denial of service if a program crashes after locking the accelerator, an automatic timeout feature unlocks the accelerator after an arbitrary number of cycles without receiving valid commands.
 
-### State Zeroing
+### State zeroing
 
 When the lock is released (either manually or through timeout), internal data and registers are cleared to prevent information reuse. This ensures that only a program holding the initial lock key can access the data that was sent.
 
-### Bit Flipping Protection
+### Bit flipping protection
 
 To protect against unauthorized data access, every command that outputs data takes a bit flip mask as input. This bit flip mask is known only to the program that already holds the simulation data. By using a randomly generated bit flip mask for each output request, only the authorized program can correctly interpret the output values.
 
-## Future Security Enhancements
+## Future security enhancements
 
 Potential security enhancements for future versions include:
 
