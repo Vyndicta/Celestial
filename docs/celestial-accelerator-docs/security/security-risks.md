@@ -94,4 +94,3 @@ Potential security enhancements for future versions include:
 ## References
 
 - For implementation details of the locking mechanism, see [SetLock.c](/CelestialAccelerator/C_Codes/SetLock.c)
-- For information on how to securely use the accelerator, see the [Getting Started Guide](../guides/getting-started.md)

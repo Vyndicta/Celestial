@@ -1,4 +1,4 @@
-# Switch Module
+# Switch module
 <style>
 table {
   border-collapse: collapse;
@@ -22,7 +22,7 @@ th {
 </style>
 The Switch Module handles the communication between the top module and all Body Processing Units (BPUs). It functions as a centralized routing hub that manages data flow between components during different phases of the n-body simulation.
 
-## Purpose and Functionality
+## Purpose and functionality
 
 The primary purpose of the Switch Module is to:
 
@@ -34,51 +34,13 @@ The primary purpose of the Switch Module is to:
 
 The Switch Module connects to each BPU through a standardized interface and manages data transfers using a target selection mechanism. It instantiates and coordinates multiple BPUs, creating a scalable architecture that can handle a variable number of celestial bodies.
 
-```
-                 ┌───────────────────┐
-                 │                   │
-                 │   Rocket Core     │
-                 │                   │
-                 └─────────┬─────────┘
-                           ↑
-                           ↓
-                 ┌───────────────────┐
-                 │                   │
-                 │   TileLink MMIO   │
-                 │   Interface       │
-                 └─────────┬─────────┘
-                           ↑
-                           ↓ Command Packets
-                 ┌───────────────────┐
-                 │                   │
-                 │    Top Module     │
-                 │                   │
-                 └─────────┬─────────┘
-                           ↑
-                           │ Control Signals,
-                           │ Input Data
-                           ↓
-┌────────────────────────────────────────────────┐
-│                                                │
-│               Switch Module                    │
-│     (Routing, Broadcasting, Selection)         │
-│                                                │
-└───┬───────────┬───────────┬───────────┬────────┘
-    ↑           ↑           ↑           ↑
-    ↓           ↓           ↓           ↓
-┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
-│         │ │         │ │         │ │         │
-│  BPU 0  │ │  BPU 1  │ │  BPU 2  │ │  BPU n  │
-│         │ │         │ │         │ │         │
-└─────────┘ └─────────┘ └─────────┘ └─────────┘
-```
 
-### Key Components
+### Key components
 
-- **Target Selection Register**: Identifies which BPU is currently being addressed
-- **Broadcast Mechanism**: Wires that distribute one BPU's data to all others
-- **Mode Selection Logic**: Determines the current operation mode for each BPU
-- **Collision Detection System**: Priority encoder to identify and report collisions
+- **Target selection register**: Identifies which BPU is currently being addressed
+- **Broadcast mechanism**: Wires that distribute one BPU's data to all others
+- **Mode selection logic**: Determines the current operation mode for each BPU
+- **Collision detection system**: Priority encoder to identify and report collisions
 
 ## Operation Modes
 
