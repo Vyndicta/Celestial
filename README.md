@@ -1,1 +1,1 @@
-All the codes are present here. A website is under construction to document it. For now, there is only some data on how to use the FPGA (https://vyndicta.github.io/Celestial/celestial-accelerator-docs/FPGA.html), the rest will follow the day I have some time.
+All the codes are present here, and the code's documentation is available at https://vyndicta.github.io/Celestial/celestial-accelerator-docs/FPGA.html.
